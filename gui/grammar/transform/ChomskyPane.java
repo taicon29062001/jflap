@@ -52,7 +52,7 @@ public class ChomskyPane extends JPanel {
     public ChomskyPane(GrammarEnvironment environment, Grammar grammar) {
 	this.environment = environment;
 	this.grammar = grammar;
-	converter = new CNFConverter(grammar);
+	converter = new CNFConvert(grammar);
 	mainLabel.setText("Welcome to the Chomsky converter.");
 	mainLabel.addMouseListener(new MouseAdapter() {
 		public void mouseClicked(MouseEvent event) {
@@ -257,7 +257,7 @@ public class ChomskyPane extends JPanel {
     /** The grammar. */
     Grammar grammar;
     /** The converter object. */
-    CNFConverter converter;
+    CNFConvert converter;
 
     /** The array of rows that need to be done.  This will be updated
      * every turn... I guess. */

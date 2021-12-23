@@ -26,7 +26,7 @@
  
 package gui.deterministic;
 
-import automata.State;
+import automata.StateAutomaton;
 import gui.editor.Tool;
 import gui.viewer.AutomatonDrawer;
 import gui.viewer.AutomatonPane;
@@ -74,7 +74,7 @@ public class StateExpanderTool extends Tool {
      * @param event the mouse event
      */
     public void mousePressed(MouseEvent event) {
-	State state = getDrawer().stateAtPoint(event.getPoint());
+	StateAutomaton state = getDrawer().stateAtPoint(event.getPoint());
 	if (state == null) return;
 	controller.expandState(state);
     }

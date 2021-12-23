@@ -26,7 +26,7 @@
  
 package gui.regular;
 
-import automata.State;
+import automata.StateAutomaton;
 import gui.editor.TransitionTool;
 import gui.viewer.AutomatonDrawer;
 import gui.viewer.AutomatonPane;
@@ -66,7 +66,7 @@ public class RegularTransitionTool extends TransitionTool {
     public void mouseReleased(MouseEvent event) {
 	// Did we even start at a state?
 	if (first == null) return;
-	State state = getDrawer().stateAtPoint(event.getPoint());
+	StateAutomaton state = getDrawer().stateAtPoint(event.getPoint());
 	if (state != null) {
 	    controller.transitionCreate(first, state);
 	}

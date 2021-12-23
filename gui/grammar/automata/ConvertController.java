@@ -27,7 +27,7 @@
 package gui.grammar.automata;
 
 import automata.Automaton;
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import grammar.Grammar;
 import grammar.Production;
@@ -96,7 +96,7 @@ public abstract class ConvertController {
 	    Production p = table.getGrammarModel().getProduction(min);
 	    Object o = productionToObject.get(p);
 	    if (o == null) continue;
-	    if (o instanceof State) drawer.addSelected((State)o);
+	    if (o instanceof StateAutomaton) drawer.addSelected((StateAutomaton)o);
 	    else drawer.addSelected((Transition)o);
 	}
 	convertPane.getAutomatonPane().repaint();
@@ -108,7 +108,7 @@ public abstract class ConvertController {
      * produce the productions.
      */
     protected void fillMap() {
-	State[] states = automaton.getStates();
+	StateAutomaton[] states = automaton.getStates();
 	for (int i=0; i<states.length; i++) {
 	    Production[] prods = getProductions(states[i]);
 	    if (prods.length == 0) continue;
@@ -226,8 +226,8 @@ public abstract class ConvertController {
 	Object[] unselected = unselectedSet.toArray();
 	drawer.clearSelected();
 	for (int i=0; i<unselected.length; i++)
-	    if (unselected[i] instanceof State)
-		drawer.addSelected((State)unselected[i]);
+	    if (unselected[i] instanceof StateAutomaton)
+		drawer.addSelected((StateAutomaton)unselected[i]);
 	    else drawer.addSelected((Transition)unselected[i]);
 	convertPane.getAutomatonPane().repaint();
 	return unselected;
@@ -289,7 +289,7 @@ public abstract class ConvertController {
      * @return an array containing the productions that correspond to
      * a particular state
      */
-    protected Production[] getProductions(State state) {
+    protected Production[] getProductions(StateAutomaton state) {
 	return new Production[0];
     }
 

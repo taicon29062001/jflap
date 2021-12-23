@@ -93,7 +93,7 @@ public class TMSimulator extends AutomatonSimulator {
 	TMConfiguration configuration = (TMConfiguration) config;
 	/** get all information from configuration. */
 
-	State currentState = configuration.getCurrentState();
+	StateAutomaton currentState = configuration.getCurrentState();
 	Transition[] transitions = 
 	    myAutomaton.getTransitionsFromState(currentState);
 	for (int k = 0; k < transitions.length; k++) {
@@ -106,7 +106,7 @@ public class TMSimulator extends AutomatonSimulator {
 		if (!charAtHead.equals(toRead)) okay=false;
 	    }
 	    if (!okay) continue; // One of the toReads wasn't satisfied.
-	    State toState = t.getToState();
+	    StateAutomaton toState = t.getToState();
 	    Tape[] tapes2 = new Tape[tapes.length];
 	    for (int i=0; i<tapes.length; i++) {
 		tapes2[i]=new Tape(tapes[i]);
@@ -132,7 +132,7 @@ public class TMSimulator extends AutomatonSimulator {
 	Iterator it = myConfigurations.iterator();
 	while (it.hasNext()) {
 	    TMConfiguration configuration = (TMConfiguration) it.next();
-	    State currentState = configuration.getCurrentState();
+	    StateAutomaton currentState = configuration.getCurrentState();
 	    /** check if in final state.  contents of tape are
 	     * irrelevant. */
 	    if(myAutomaton.isFinalState(currentState)) {

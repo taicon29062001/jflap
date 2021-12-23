@@ -50,10 +50,10 @@ public class DFAEqualityChecker {
      * @param matching the matchings of states in the first automaton
      * to states in the second automaton
      */
-    private boolean hypothesize(State state1, State state2, Map matching) {
+    private boolean hypothesize(StateAutomaton state1, StateAutomaton state2, Map matching) {
 	{
 	    // Does state one already have a counterpart?
-	    State counterpart = (State) matching.get(state1);
+	    StateAutomaton counterpart = (StateAutomaton) matching.get(state1);
 	    // If it does, is it the same?
 	    if (counterpart != null) return counterpart == state2;
 	    // We haven't visited this node yet.

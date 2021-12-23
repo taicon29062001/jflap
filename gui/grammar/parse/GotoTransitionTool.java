@@ -26,7 +26,7 @@
  
 package gui.grammar.parse;
 
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import gui.editor.TransitionTool;
 import gui.viewer.AutomatonDrawer;
@@ -64,7 +64,7 @@ public class GotoTransitionTool extends TransitionTool {
     public void mouseReleased(MouseEvent event) {
 	// Did we even start at a state?
 	if (first == null) return;
-	State state = getDrawer().stateAtPoint(event.getPoint());
+	StateAutomaton state = getDrawer().stateAtPoint(event.getPoint());
 	controller.gotoGroup(first, event.getPoint(), state);
 	first = null;
 	getView().repaint();

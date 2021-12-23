@@ -26,7 +26,7 @@
  
 package gui.regular;
 
-import automata.State;
+import automata.StateAutomaton;
 import gui.editor.Tool;
 import gui.viewer.AutomatonDrawer;
 import gui.viewer.AutomatonPane;
@@ -90,7 +90,7 @@ public class StateCollapseTool extends Tool {
      * @param event the mouse event
      */
     public void mousePressed(MouseEvent event) {
-	State s = getDrawer().stateAtPoint(event.getPoint());
+	StateAutomaton s = getDrawer().stateAtPoint(event.getPoint());
 	if (s != null) {
 	    controller.stateCollapse(s);
 	}

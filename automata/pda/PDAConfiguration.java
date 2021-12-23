@@ -48,7 +48,7 @@ public class PDAConfiguration extends Configuration {
      * @param unprocessed the unprocessed input.
      * @param stack the stack contents
      */
-    public PDAConfiguration(State state, PDAConfiguration parent,
+    public PDAConfiguration(StateAutomaton state, PDAConfiguration parent,
 			    String input, String unprocessed,
 			    CharacterStack stack) {
 	super(state, parent);
@@ -111,7 +111,7 @@ public class PDAConfiguration extends Configuration {
      */
     public boolean isAccept() {
 	if (getUnprocessedInput().length() != 0) return false;
-	State s = getCurrentState();
+	StateAutomaton s = getCurrentState();
 	Automaton a = s.getAutomaton();
 	return a.isFinalState(s);
     }

@@ -88,15 +88,15 @@ public class CFGToPDALLConverter
 	initialize();
 	StatePlacer sp = new StatePlacer();
 
-	State initialState = 
+	StateAutomaton initialState = 
 	    automaton.createState(sp.getPointForState(automaton));
 	automaton.setInitialState(initialState);
 	
-	State intermediateState = 
+	StateAutomaton intermediateState = 
 	    automaton.createState(sp.getPointForState(automaton));
 	INTERMEDIATE_STATE = intermediateState;
 
-	State finalState = 
+	StateAutomaton finalState = 
 	    automaton.createState(sp.getPointForState(automaton));
 	automaton.addFinalState(finalState);
 
@@ -123,5 +123,5 @@ public class CFGToPDALLConverter
     
    
     /** the intermediate state in the automaton. */
-    protected State INTERMEDIATE_STATE;
+    protected StateAutomaton INTERMEDIATE_STATE;
 }

@@ -27,7 +27,7 @@
 package gui.grammar.automata;
 
 import automata.Automaton;
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import automata.fsa.FSAToRegularGrammarConverter;
 import automata.fsa.FiniteStateAutomaton;
@@ -65,7 +65,7 @@ public class FSAConvertController extends ConvertController {
 	converter.initializeConverter(automaton);
 	fillMap();
 	// Sets the labels.
-	State[] states = automaton.getStates();
+	StateAutomaton[] states = automaton.getStates();
 	for (int i=0; i<states.length; i++)
 	    states[i].setLabel(converter.variableForState(states[i]));
     }
@@ -77,7 +77,7 @@ public class FSAConvertController extends ConvertController {
      * @return an array containing the productions that correspond to
      * a particular state
      */
-    protected Production[] getProductions(State state) {
+    protected Production[] getProductions(StateAutomaton state) {
 	if (!getAutomaton().isFinalState(state)) return new Production[0];
 	Production[] p = {converter.getLambdaProductionForFinalState
 			  (getAutomaton(), state)};

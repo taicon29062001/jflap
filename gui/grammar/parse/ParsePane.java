@@ -116,37 +116,46 @@ abstract class ParsePane extends JPanel {
 	
 	c.fill = GridBagConstraints.BOTH;
 
-	c.weightx = 0.0;
-	panel.add(new JLabel("Input"), c);
-	c.weightx = 1.0;
-	c.gridwidth = GridBagConstraints.REMAINDER;
-	panel.add(inputField, c);
-	inputField.addActionListener(startAction);
-	//c.weightx = 0.0;
-	//JButton startButton = new JButton(startAction);
-	//panel.add(startButton, c);
+	input(panel, c);
 	
-	c.weightx = 0.0;
-	c.gridwidth = 1;
-	panel.add(new JLabel("Input Remaining"), c);
-	c.weightx = 1.0;
-	c.gridwidth = GridBagConstraints.REMAINDER;
-	inputDisplay.setEditable(false);
-	panel.add(inputDisplay, c);
+	inputRemaining(panel, c);
 
-	c.weightx = 0.0;
-	c.gridwidth = 1;
-	panel.add(new JLabel("Stack"), c);
-	c.weightx = 1.0;
-	c.gridwidth = GridBagConstraints.REMAINDER;
-	stackDisplay.setEditable(false);
-	panel.add(stackDisplay, c);
+	stack(panel, c);
 	
 	bigger.add(panel, BorderLayout.CENTER);
 	bigger.add(initInputToolbar(), BorderLayout.NORTH);
 
 	return bigger;
     }
+
+	private void stack(JPanel panel, GridBagConstraints c) {
+		c.weightx = 0.0;
+		c.gridwidth = 1;
+		panel.add(new JLabel("Stack"), c);
+		c.weightx = 1.0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		stackDisplay.setEditable(false);
+		panel.add(stackDisplay, c);
+	}
+
+	private void inputRemaining(JPanel panel, GridBagConstraints c) {
+		c.weightx = 0.0;
+		c.gridwidth = 1;
+		panel.add(new JLabel("Input Remaining"), c);
+		c.weightx = 1.0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		inputDisplay.setEditable(false);
+		panel.add(inputDisplay, c);
+	}
+
+	private void input(JPanel panel, GridBagConstraints c) {
+		c.weightx = 0.0;
+		panel.add(new JLabel("Input"), c);
+		c.weightx = 1.0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		panel.add(inputField, c);
+		inputField.addActionListener(startAction);
+	}
 
     /**
      * Returns the choices for the view.

@@ -102,7 +102,7 @@ public class UnitPane extends JPanel {
 		    t.add(new ArrowNontransitionTool(view, drawer) {
 			    public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
-				State s=vdgDrawer.stateAtPoint(e.getPoint());
+				StateAutomaton s=vdgDrawer.stateAtPoint(e.getPoint());
 				if (controller.step ==
 				    controller.PRODUCTION_MODIFY) {
 				    controller.stateClicked(s, e);

@@ -53,7 +53,7 @@ public class UselessStatesDetector {
      */
     public static Automaton cleanAutomaton(Automaton a) {
 	Automaton ac = (Automaton)a.clone();
-	State[] s = ac.getStates();
+	StateAutomaton[] s = ac.getStates();
 	Set useless = getUselessStates(ac);
 	for (int i=0; i<s.length; i++) {
 	    if (useless.contains(s[i]) && s[i] != ac.getInitialState())
@@ -81,8 +81,8 @@ public class UselessStatesDetector {
 	     throw new IllegalArgumentException
 		 ("Automata does not have an initial state!");
 	 }
-	 Set finalized = findFinal(a);
-	 Set initialized = findInitial(a);
+	 Set finalized = findFinalState(a);
+	 Set initialized = findInitialState(a);
 	 Set useless = new HashSet(Arrays.asList(a.getStates()));
 	 finalized.retainAll(initialized);
 	 useless.removeAll(finalized);
@@ -94,7 +94,7 @@ public class UselessStatesDetector {
      * @param a the automaton
      * @return the set of state that can lead to a final state
      */
-    private static Set findFinal(Automaton a) {
+    private static Set findFinalState(Automaton a) {
 	Set finalized = new HashSet();
 	finalized.addAll(Arrays.asList(a.getFinalStates()));
 	boolean added = finalized.size() != 0;
@@ -113,7 +113,7 @@ public class UselessStatesDetector {
      * @param a the automaton
      * @return the set of states reachable from an initial state
      */
-    private static Set findInitial(Automaton a) {
+    private static Set findInitialState(Automaton a) {
 	Set initialized = new HashSet();
 	initialized.add(a.getInitialState());
 	boolean added = true;

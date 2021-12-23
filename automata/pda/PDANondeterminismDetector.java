@@ -28,6 +28,7 @@ package automata.pda;
 
 import automata.*;
 import automata.pda.*;
+import gui.deterministic.NondeterminismDetector;
 
 /**
  * The PDA nondeterminism detector object can be used to

@@ -92,5 +92,5 @@ public class StateTool extends Tool {
     }
 
     /** The state that was created. */
-    automata.State state = null;
+    automata.StateAutomaton state = null;
 }

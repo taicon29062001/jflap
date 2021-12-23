@@ -27,7 +27,7 @@
 package automata.graph;
 
 import automata.Automaton;
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import java.awt.Point;
 import java.awt.geom.Point2D;
@@ -51,7 +51,7 @@ public class AutomatonGraph extends Graph {
      */
     public AutomatonGraph(Automaton automaton) {
 	super();
-	State[] states = automaton.getStates();
+	StateAutomaton[] states = automaton.getStates();
 	Transition[] transitions = automaton.getTransitions();
 	for (int i=0; i<states.length; i++)
 	    addVertex(states[i], states[i].getPoint());
@@ -66,7 +66,7 @@ public class AutomatonGraph extends Graph {
     public void moveAutomatonStates() {
 	Object[] vertices = vertices();
 	for (int i=0; i<vertices.length; i++) {
-	    State state = (State) vertices[i];
+	    StateAutomaton state = (StateAutomaton) vertices[i];
 	    Point2D point = pointForVertex(state);
 	    state.setPoint(new Point((int)point.getX(), (int)point.getY()));
 	}

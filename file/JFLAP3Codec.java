@@ -155,13 +155,13 @@ public class JFLAP3Codec extends Codec {
 	automata.fsa.FiniteStateAutomaton fa =
 	    new automata.fsa.FiniteStateAutomaton();
 	// Generic states.
-	State[] states = readStateCreate(fa, reader);
+	StateAutomaton[] states = readStateCreate(fa, reader);
 	String[][][] groups = readTransitionGroups
 	    (2, 1, states.length, reader);
 	for (int s=0; s<groups.length; s++) {
 	    for (int g=0; g<groups[s].length; g++) {
 		String[] group = groups[s][g];
-		State to=states[Integer.parseInt(group[1])-1], from=states[s];
+		StateAutomaton to=states[Integer.parseInt(group[1])-1], from=states[s];
 		if (group[0].equals("null")) group[0]="";
 		Transition t = new automata.fsa.FSATransition
 		    (from, to, group[0]);
@@ -186,13 +186,13 @@ public class JFLAP3Codec extends Codec {
 	automata.pda.PushdownAutomaton pda =
 	    new automata.pda.PushdownAutomaton();
 	// Generic states.
-	State[] states = readStateCreate(pda, reader);
+	StateAutomaton[] states = readStateCreate(pda, reader);
 	String[][][] groups = readTransitionGroups
 	    (5, 3, states.length, reader);
 	for (int s=0; s<groups.length; s++) {
 	    for (int g=0; g<groups[s].length; g++) {
 		String[] group = groups[s][g];
-		State to=states[Integer.parseInt(group[3])-1], from=states[s];
+		StateAutomaton to=states[Integer.parseInt(group[3])-1], from=states[s];
 		try {
 		    Transition t;
 		    // Take care of lambda symbols.
@@ -233,13 +233,13 @@ public class JFLAP3Codec extends Codec {
 	automata.turing.TuringMachine tm =
 	    new automata.turing.TuringMachine(tapes);
 	// Generic states.
-	State[] states = readStateCreate(tm, reader);
+	StateAutomaton[] states = readStateCreate(tm, reader);
 	String[][][] groups = readTransitionGroups
 	    (1+3*tm.tapes(), 1, states.length, reader);
 	for (int s=0; s<groups.length; s++) {
 	    for (int g=0; g<groups[s].length; g++) {
 		String[] group = groups[s][g];
-		State to=states[Integer.parseInt(group[1])-1], from=states[s];
+		StateAutomaton to=states[Integer.parseInt(group[1])-1], from=states[s];
 		try {
 		    Transition t;
 		    // Take care of blank tape symbols.
@@ -276,16 +276,16 @@ public class JFLAP3Codec extends Codec {
      * @param reader the buffered reader
      * @return an array of the states created
      */
-    private State[] readStateCreate(Automaton automaton, BufferedReader reader)
+    private StateAutomaton[] readStateCreate(Automaton automaton, BufferedReader reader)
 	throws IOException {
 	// Read the number of states.
-	State[] states = null;
+	StateAutomaton[] states = null;
 	try {
 	    int numStates = Integer.parseInt(reader.readLine());
 	    if (numStates < 0)
 		throw new ParseException
 		    ("Number of states cannot be "+numStates+"!");
-	    states = new State[numStates];
+	    states = new StateAutomaton[numStates];
 	} catch (NumberFormatException e) {
 	    throw new ParseException("Bad format for number of states!");
 	}
@@ -334,7 +334,7 @@ public class JFLAP3Codec extends Codec {
      * @param states the array of states
      * @param reader the buffered reader
      */
-    private void readStateMove(State[] states, BufferedReader reader)
+    private void readStateMove(StateAutomaton[] states, BufferedReader reader)
 	throws IOException {
 	for (int i=0; i<states.length; i++) {
 	    int x, y;

@@ -27,7 +27,7 @@
 package automata.vdg;
 
 import automata.Transition;
-import automata.State;
+import automata.StateAutomaton;
 
 /**
  * A <CODE>VDGTransition</CODE> is a <CODE>Transition</CODE> object 
@@ -42,7 +42,7 @@ public class VDGTransition extends Transition {
      * @param from the state this transition comes from.
      * @param to the state this transition goes to.
      */
-    public VDGTransition(State from, State to) {
+    public VDGTransition(StateAutomaton from, StateAutomaton to) {
 	super(from,to);
     }
 
@@ -52,7 +52,7 @@ public class VDGTransition extends Transition {
      * @param to the new to state
      * @return a copy of this transition with the new states
      */
-    public Transition copy(State from, State to) {
+    public Transition copy(StateAutomaton from, StateAutomaton to) {
 	return new VDGTransition(from,to);
     }
     

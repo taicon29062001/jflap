@@ -28,7 +28,7 @@ package gui.viewer;
 
 import automata.event.AutomataStateEvent;
 import automata.Automaton;
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import gui.viewer.StateDrawer;
 import java.util.Set;
@@ -73,7 +73,7 @@ public class SelectionDrawer extends AutomatonDrawer {
      * @param g the graphics object to draw on
      * @param state the state to draw
      */
-    public void drawState(Graphics g, State state) {
+    public void drawState(Graphics g, StateAutomaton state) {
 	if (selected.contains(state)) {
 	    getStateDrawer().drawState(g, getAutomaton(), state,
 				       state.getPoint(), SELECTED_COLOR);
@@ -108,7 +108,7 @@ public class SelectionDrawer extends AutomatonDrawer {
      * Adds a state to the selected states.
      * @param state the state to add
      */
-    public void addSelected(State state) {
+    public void addSelected(StateAutomaton state) {
 	if (state.getAutomaton() != getAutomaton())
 	    throw new IllegalArgumentException
 		("State to select not in correct automaton!");
@@ -122,7 +122,7 @@ public class SelectionDrawer extends AutomatonDrawer {
      * Removes the state from the selected states.
      * @param state the state to remove
      */
-    public void removeSelected(State state) {
+    public void removeSelected(StateAutomaton state) {
 	if (selected.contains(state)) {
 	    selected.remove(state);
 	    distributeChangeEvent();
@@ -141,8 +141,8 @@ public class SelectionDrawer extends AutomatonDrawer {
      * Returns an array of the selected states.
      * @return an array of the selected states
      */
-    public State[] getSelected() {
-	return (State[]) selected.toArray(new State[0]);
+    public StateAutomaton[] getSelected() {
+	return (StateAutomaton[]) selected.toArray(new StateAutomaton[0]);
     }
 
     /**
@@ -151,7 +151,7 @@ public class SelectionDrawer extends AutomatonDrawer {
      * @return <CODE>true</CODE> if the state is selected,
      * <CODE>false</CODE> if it is not
      */
-    public boolean isSelected(State state) {
+    public boolean isSelected(StateAutomaton state) {
 	return selected.contains(state);
     }
 

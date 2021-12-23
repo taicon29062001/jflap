@@ -334,7 +334,7 @@ public class UselessProductionRemover {
 	    Point point = new Point
 		(200 + (int) (180.0*Math.cos(theta)),
 		 200 + (int) (180.0*Math.sin(theta)));
-	    State state = graph.createState(point);
+	    StateAutomaton state = graph.createState(point);
 	    state.setName(variables[k]);
 	    if(variables[k].equals(grammar.getStartVariable()))
 		graph.setInitialState(state);
@@ -379,8 +379,8 @@ public class UselessProductionRemover {
      */
     public static Transition getTransition
 	(String v1, String v2, VariableDependencyGraph graph) {
-	State from = getStateForVariable(v1,graph);
-	State to = getStateForVariable(v2,graph);
+	StateAutomaton from = getStateForVariable(v1,graph);
+	StateAutomaton to = getStateForVariable(v2,graph);
 	return new VDGTransition(from,to);
     }
 
@@ -394,11 +394,11 @@ public class UselessProductionRemover {
      * <CODE>variable</CODE> (i.e the state whose name is
      * <CODE>variable</CODE>).
      */
-    public static State getStateForVariable
+    public static StateAutomaton getStateForVariable
 	(String variable, VariableDependencyGraph graph) {
-	State[] states = graph.getStates();
+	StateAutomaton[] states = graph.getStates();
 	for(int k = 0; k < states.length; k++) {
-	    State state = states[k];
+	    StateAutomaton state = states[k];
 	    if(state.getName().equals(variable)) 
 		return state;
 	}
@@ -472,7 +472,7 @@ public class UselessProductionRemover {
 	ArrayList list = new ArrayList();
 	UnreachableStatesDetector usd =
 	    new UnreachableStatesDetector(graph);
-	State[] states = usd.getUnreachableStates();
+	StateAutomaton[] states = usd.getUnreachableStates();
 	for(int k = 0; k < states.length; k++) {
 	    list.add(states[k].getName());
 	}

@@ -85,12 +85,12 @@ public class FSAToRegularExpressionConverter {
      */
     public boolean isConvertable(Automaton automaton) {
 	if(!(automaton instanceof FiniteStateAutomaton)) return false;
-	State[] finalStates = automaton.getFinalStates();
+	StateAutomaton[] finalStates = automaton.getFinalStates();
 	if(finalStates.length != 1) {
 	    return false;
 	}
 	
-	State initialState = automaton.getInitialState();
+	StateAutomaton initialState = automaton.getInitialState();
 	if(finalStates[0] == initialState) {
 	    return false;
 	}
@@ -105,7 +105,7 @@ public class FSAToRegularExpressionConverter {
      * <CODE>automaton</CODE>.
      */
     public boolean areRemovableStates(Automaton automaton) {
-	State[] states = automaton.getStates();
+	StateAutomaton[] states = automaton.getStates();
 	for(int k = 0; k < states.length; k++) {
 	    if(isRemovable(states[k],automaton)) return true;
 	}
@@ -119,10 +119,10 @@ public class FSAToRegularExpressionConverter {
      * @param automaton the automaton.
      * @return true if <CODE>state</CODE> is a removable state
      */
-    public boolean isRemovable(State state, Automaton automaton) {
-	State[] finalStates = automaton.getFinalStates();
-	State finalState = finalStates[0];
-	State initialState = automaton.getInitialState();
+    public boolean isRemovable(StateAutomaton state, Automaton automaton) {
+	StateAutomaton[] finalStates = automaton.getFinalStates();
+	StateAutomaton finalState = finalStates[0];
+	StateAutomaton initialState = automaton.getInitialState();
 	if(state == finalState || state == initialState) return false;
 	return true;
     }
@@ -141,8 +141,8 @@ public class FSAToRegularExpressionConverter {
      */
     public Transition getTransitionForExpression
 	(int p, int q, String expression, Automaton automaton) {
-	State fromState = automaton.getStateWithID(p);
-	State toState = automaton.getStateWithID(q);
+	StateAutomaton fromState = automaton.getStateWithID(p);
+	StateAutomaton toState = automaton.getStateWithID(q);
 	Transition transition = new FSATransition(fromState, toState,
 						  expression);
 	return transition;
@@ -160,7 +160,7 @@ public class FSAToRegularExpressionConverter {
      * <CODE>automaton</CODE>.
      */
     public String getExpressionBetweenStates
-	(State fromState, State toState, Automaton automaton) {
+	(StateAutomaton fromState, StateAutomaton toState, Automaton automaton) {
 	Transition[] transitions =
 	    automaton.getTransitionsFromStateToState(fromState,toState);
 	FSATransition trans = (FSATransition) transitions[0];
@@ -180,9 +180,9 @@ public class FSAToRegularExpressionConverter {
      * k represent the IDs of states in <CODE>automaton</CODE>.
      */
     public String getExpression(int p, int q, int k, Automaton automaton) {
-	State fromState = automaton.getStateWithID(p);
-	State toState = automaton.getStateWithID(q);
-	State removeState = automaton.getStateWithID(k);
+	StateAutomaton fromState = automaton.getStateWithID(p);
+	StateAutomaton toState = automaton.getStateWithID(q);
+	StateAutomaton removeState = automaton.getStateWithID(k);
 	
 	String pq = 
 	    getExpressionBetweenStates(fromState,toState,automaton); 
@@ -268,7 +268,7 @@ public class FSAToRegularExpressionConverter {
      * @param automaton the automaton.
      */
     public void removeState 
-	(State state, Transition[] transitions, Automaton automaton) {
+	(StateAutomaton state, Transition[] transitions, Automaton automaton) {
 	Transition[] oldTransitions = automaton.getTransitions();
 	for(int k = 0; k < oldTransitions.length; k++) {
 	    automaton.removeTransition(oldTransitions[k]);
@@ -292,11 +292,11 @@ public class FSAToRegularExpressionConverter {
      * <CODE>state</CODE>.
      */
     public Transition[] getTransitionsForRemoveState
-	(State state, Automaton automaton) {
+	(StateAutomaton state, Automaton automaton) {
 	if(!isRemovable(state, automaton)) return null;
 	ArrayList list = new ArrayList();
 	int k = state.getID();
-	State[] states = automaton.getStates();
+	StateAutomaton[] states = automaton.getStates();
 	for(int i = 0; i < states.length; i++) {
 	    int p = states[i].getID();
 	    if(p != k) {
@@ -324,7 +324,7 @@ public class FSAToRegularExpressionConverter {
      * @return the <CODE>FSATransition</CODE> that was created
      */
     public FSATransition addTransitionOnEmptySet
-	(State fromState, State toState, Automaton automaton) {
+	(StateAutomaton fromState, StateAutomaton toState, Automaton automaton) {
 	FSATransition t = new FSATransition(fromState,toState,EMPTY);
 	automaton.addTransition(t);
 	return t;
@@ -347,7 +347,7 @@ public class FSAToRegularExpressionConverter {
      * @return the transition that replaced all of these
      */
     public FSATransition combineToSingleTransition
-	(State fromState,State toState,Transition[] transitions,
+	(StateAutomaton fromState,StateAutomaton toState,Transition[] transitions,
 	 Automaton automaton) {
 	 String label = ((FSATransition) transitions[0]).getDescription();
 	 automaton.removeTransition(transitions[0]);
@@ -369,12 +369,12 @@ public class FSAToRegularExpressionConverter {
      */
     public void getSingleFinalState(Automaton automaton) {
 	StatePlacer sp = new StatePlacer();
-	State finalState = 
+	StateAutomaton finalState = 
 	    automaton.createState(sp.getPointForState(automaton));
 	
-	State[] finalStates = automaton.getFinalStates();
+	StateAutomaton[] finalStates = automaton.getFinalStates();
 	for(int k = 0; k < finalStates.length; k++) {
-	    State state = finalStates[k];
+	    StateAutomaton state = finalStates[k];
 	    automaton.addTransition(new FSATransition
 				    (state,finalState, LAMBDA));
 	    automaton.removeFinalState(state);
@@ -394,7 +394,7 @@ public class FSAToRegularExpressionConverter {
      */
     public void convertToSimpleAutomaton(Automaton automaton) {
 	if(!isConvertable(automaton)) getSingleFinalState(automaton);
-	State[] states = automaton.getStates();
+	StateAutomaton[] states = automaton.getStates();
 	for(int k = 0; k < states.length; k++) {
 	    for(int j = 0; j < states.length; j++) {
 		Transition[] transitions =
@@ -418,12 +418,12 @@ public class FSAToRegularExpressionConverter {
      * @param automaton the automaton.
      */
     public void convertToGTG(Automaton automaton) {
-	State[] finalStates = automaton.getFinalStates();
-	State finalState = finalStates[0];
-	State initialState = automaton.getInitialState();
-	State[] states = automaton.getStates();
+	StateAutomaton[] finalStates = automaton.getFinalStates();
+	StateAutomaton finalState = finalStates[0];
+	StateAutomaton initialState = automaton.getInitialState();
+	StateAutomaton[] states = automaton.getStates();
 	for(int k = 0; k < states.length; k++) {
-	    State state = states[k];
+	    StateAutomaton state = states[k];
 	    if(state != finalState && state != initialState) {
 		Transition[] transitions = 
 		    getTransitionsForRemoveState(state, automaton);
@@ -516,7 +516,7 @@ public class FSAToRegularExpressionConverter {
      * <CODE>automaton</CODE>.
      */
     public String getII(Automaton automaton) {
-	State initialState = automaton.getInitialState();
+	StateAutomaton initialState = automaton.getInitialState();
 	return getExpressionBetweenStates(initialState,initialState,automaton);
     }
 
@@ -529,9 +529,9 @@ public class FSAToRegularExpressionConverter {
      * to the final state of <CODE>automaton</CODE>.
      */
     public String getIJ(Automaton automaton) {
-	State initialState = automaton.getInitialState();
-	State[] finalStates = automaton.getFinalStates();
-	State finalState = finalStates[0];
+	StateAutomaton initialState = automaton.getInitialState();
+	StateAutomaton[] finalStates = automaton.getFinalStates();
+	StateAutomaton finalState = finalStates[0];
 	return getExpressionBetweenStates(initialState,finalState,automaton);
     }
 
@@ -544,8 +544,8 @@ public class FSAToRegularExpressionConverter {
      * of <CODE>automaton</CODE>
      */
     public String getJJ(Automaton automaton) {
-	State[] finalStates = automaton.getFinalStates();
-	State finalState = finalStates[0];
+	StateAutomaton[] finalStates = automaton.getFinalStates();
+	StateAutomaton finalState = finalStates[0];
 	return getExpressionBetweenStates(finalState,finalState,automaton);
     }
     
@@ -558,9 +558,9 @@ public class FSAToRegularExpressionConverter {
      * the initial state of <CODE>automaton</CODE>
      */
     public String getJI(Automaton automaton) {
-	State initialState = automaton.getInitialState();
-	State[] finalStates = automaton.getFinalStates();
-	State finalState = finalStates[0];
+	StateAutomaton initialState = automaton.getInitialState();
+	StateAutomaton[] finalStates = automaton.getFinalStates();
+	StateAutomaton finalState = finalStates[0];
 	return getExpressionBetweenStates(finalState,initialState,automaton);
     }
 

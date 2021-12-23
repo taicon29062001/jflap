@@ -92,7 +92,7 @@ public class Minimizer {
      * @param states the array of State objects.
      * @return a string representation of <CODE>states</CODE>
      */
-    public String getString(State[] states) {
+    public String getString(StateAutomaton[] states) {
 	if(states.length == 0) return "";
 	StringBuffer buffer = new StringBuffer();
 	for(int k = 0; k < states.length-1; k++) {
@@ -110,7 +110,7 @@ public class Minimizer {
      * @return the terminal that <CODE>group</CODE> can be split on.
      */
     public String getTerminalToSplit
-	(State[] group, Automaton automaton, DefaultTreeModel tree) {
+	(StateAutomaton[] group, Automaton automaton, DefaultTreeModel tree) {
 	AlphabetRetriever far = new FSAAlphabetRetriever();
 	String[] alphabet = far.getAlphabet(automaton);
 	for(int k = 0; k < alphabet.length; k++) {
@@ -131,7 +131,7 @@ public class Minimizer {
      * <CODE>terminal</CODE>.
      */
     public boolean isSplittableOnTerminal
-	(State[] group, String terminal, Automaton automaton, 
+	(StateAutomaton[] group, String terminal, Automaton automaton, 
 	 DefaultTreeModel tree) {
 	/** if group goes to more than one group on terminal. */
 	if(getGroupsFromGroupOnTerminal
@@ -148,7 +148,7 @@ public class Minimizer {
      * @return  true if <CODE>group</CODE> can be further split.
      */
     public boolean isSplittable
-	(State[] group, Automaton automaton, DefaultTreeModel tree) {
+	(StateAutomaton[] group, Automaton automaton, DefaultTreeModel tree) {
 	/** if only one state in group, can't be split. */
 	if(group.length <= 1) return false;
 	AlphabetRetriever far = new FSAAlphabetRetriever();
@@ -170,14 +170,14 @@ public class Minimizer {
      * @return the array of States that represent a 
      * distinguishable group.
      */
-    public State[] getDistinguishableGroup
+    public StateAutomaton[] getDistinguishableGroup
 	(Automaton automaton, DefaultTreeModel tree) {
 	MinimizeTreeNode root = 
 	    (MinimizeTreeNode) tree.getRoot();
 	ArrayList distinguishableGroups = getLeaves(tree,root);
 	Iterator it = distinguishableGroups.iterator();
 	while(it.hasNext()) {
-	    State[] group = (State[]) it.next();
+	    StateAutomaton[] group = (StateAutomaton[]) it.next();
 	    if(isSplittable(group,automaton,tree)) return group;
 	}
 	return null;
@@ -190,15 +190,15 @@ public class Minimizer {
      * @return an array of states that represents a group, of
      * which <CODE>state</CODE> is a member.
      */
-    public State[] getGroupForState
-	(State state, DefaultTreeModel tree) {
+    public StateAutomaton[] getGroupForState
+	(StateAutomaton state, DefaultTreeModel tree) {
 	MinimizeTreeNode root = 
 	    (MinimizeTreeNode) tree.getRoot();
 	ArrayList distinguishableGroups = getLeaves(tree,root);
 	Iterator it = distinguishableGroups.iterator();
 	//Iterator it = DISTINGUISHABLE_GROUPS.iterator();
 	while(it.hasNext()) {
-	    State[] group = (State[]) it.next();
+	    StateAutomaton[] group = (StateAutomaton[]) it.next();
 	    for(int k = 0; k < group.length; k++) {
 		if(group[k] == state) {
 		    return group;
@@ -222,7 +222,7 @@ public class Minimizer {
      * <CODE>terminal</CODE>.
      */
     public boolean stateGoesToGroupOnTerminal
-	(State state, State[] group, String terminal, Automaton automaton) {
+	(StateAutomaton state, StateAutomaton[] group, String terminal, Automaton automaton) {
 	for(int k = 0; k < group.length; k++) {
 	    Transition[] transitions = 
 		automaton.getTransitionsFromStateToState(state, group[k]);
@@ -247,7 +247,7 @@ public class Minimizer {
      * goes to on <CODE>terminal</CODE>.
      */
     public ArrayList getGroupsFromGroupOnTerminal
-	(State[] group, String terminal, Automaton automaton, 
+	(StateAutomaton[] group, String terminal, Automaton automaton, 
 	 DefaultTreeModel tree) {
 	ArrayList list = new ArrayList();
 	for(int k = 0; k < group.length; k++) {
@@ -258,7 +258,7 @@ public class Minimizer {
 	    for(int j = 0; j < transitions.length; j++) {
 		FSATransition trans = (FSATransition) transitions[j];
 		if(trans.getLabel().equals(terminal)) {
-		    State[] node = 
+		    StateAutomaton[] node = 
 			getGroupForState(transitions[j].getToState(),tree);
 		    if(!list.contains(node)) {
 			list.add(node);
@@ -281,8 +281,8 @@ public class Minimizer {
     //public DefaultMutableTreeNode getTreeNodeForObject
     //(DefaultTreeModel tree, DefaultMutableTreeNode root, State[] group) {
     public MinimizeTreeNode getTreeNodeForObject
-	(DefaultTreeModel tree, MinimizeTreeNode root, State[] group) {
-	State[] rootNode = (State[]) root.getUserObject();
+	(DefaultTreeModel tree, MinimizeTreeNode root, StateAutomaton[] group) {
+	StateAutomaton[] rootNode = (StateAutomaton[]) root.getUserObject();
 	if(rootNode == group) {
 	    return root;
 	}
@@ -309,7 +309,7 @@ public class Minimizer {
      * groups as subsets of <CODE>group</CODE>.
      */
     public ArrayList splitOnTerminal
-	(State[] group, String terminal, Automaton automaton,
+	(StateAutomaton[] group, String terminal, Automaton automaton,
 	 DefaultTreeModel tree) {
 	ArrayList newGroups = new ArrayList();
 	MinimizeTreeNode root = 
@@ -319,7 +319,7 @@ public class Minimizer {
 	//Iterator it = DISTINGUISHABLE_GROUPS.iterator();
 	while(it.hasNext()) {
 	    ArrayList statesInGroup = new ArrayList();
-	    State[] temp = (State[]) it.next();
+	    StateAutomaton[] temp = (StateAutomaton[]) it.next();
 	    for(int i = 0; i < group.length; i++) {
 		if(stateGoesToGroupOnTerminal
 		   (group[i],temp,terminal,automaton)) {
@@ -327,8 +327,8 @@ public class Minimizer {
 		}
 	    }
 	    if(statesInGroup.size() > 0) {
-		State[] groupstates = 
-		    (State[]) statesInGroup.toArray(new State[0]);
+		StateAutomaton[] groupstates = 
+		    (StateAutomaton[]) statesInGroup.toArray(new StateAutomaton[0]);
 		newGroups.add(groupstates);
 	    }
 	}
@@ -343,7 +343,7 @@ public class Minimizer {
      * @return true if <CODE>automaton</CODE> is minimized 
      */
     public boolean isMinimized(Automaton automaton, DefaultTreeModel tree) {
-	State[] states = getDistinguishableGroup(automaton,tree);
+	StateAutomaton[] states = getDistinguishableGroup(automaton,tree);
 	return states == null;
     }
 
@@ -355,7 +355,7 @@ public class Minimizer {
      * @return list of groups (as State[]) obtained by splitting
      * <CODE>group</CODE>.
      */
-    public ArrayList split(State[] group, Automaton automaton, 
+    public ArrayList split(StateAutomaton[] group, Automaton automaton, 
 			   DefaultTreeModel tree) {
 	String terminal = getTerminalToSplit(group, automaton,tree);
 	ArrayList list = new ArrayList();
@@ -393,7 +393,7 @@ public class Minimizer {
     public boolean needsTrapState(Automaton automaton) {
 	AlphabetRetriever far = new FSAAlphabetRetriever();
        	String[] alphabet = far.getAlphabet(automaton);
-	State[] states = automaton.getStates();
+	StateAutomaton[] states = automaton.getStates();
 	for(int k = 0; k < states.length; k++) {
 	    Transition[] transitions = 
 		automaton.getTransitionsFromState(states[k]);
@@ -417,11 +417,11 @@ public class Minimizer {
 	
 	StatePlacer sp = new StatePlacer();
 	Point point = sp.getPointForState(automaton);
-	State trapState = automaton.createState(point);
+	StateAutomaton trapState = automaton.createState(point);
 	TRAP_STATE = trapState;
 	AlphabetRetriever far = new FSAAlphabetRetriever();
 	String[] alphabet = far.getAlphabet(automaton);
-	State[] states = automaton.getStates();
+	StateAutomaton[] states = automaton.getStates();
 	for(int k = 0; k < states.length; k++) {
 	    Transition[] transitions = 
 		automaton.getTransitionsFromState(states[k]);
@@ -452,7 +452,7 @@ public class Minimizer {
 	/** Remove all unreachable states. */
 	UnreachableStatesDetector usd = 
 	    new UnreachableStatesDetector(a);
-	State[] unreachableStates = usd.getUnreachableStates();
+	StateAutomaton[] unreachableStates = usd.getUnreachableStates();
 	for(int k = 0; k < unreachableStates.length; k++) {
 	    a.removeState(unreachableStates[k]);
 	}
@@ -473,7 +473,7 @@ public class Minimizer {
      */
     //public void printNode(DefaultMutableTreeNode treeNode) {
     public void printNode(MinimizeTreeNode treeNode) {
-	State[] node = (State[]) treeNode.getUserObject();
+	StateAutomaton[] node = (StateAutomaton[]) treeNode.getUserObject();
 	System.out.print(getString(node));
 	System.out.println(" TERMINAL: " + treeNode.getTerminal());
     }
@@ -509,7 +509,7 @@ public class Minimizer {
      * nonfinal states.
      */
     public DefaultTreeModel getInitializedTree(Automaton automaton) {
-	State[] states = automaton.getStates();
+	StateAutomaton[] states = automaton.getStates();
 	
 	//DefaultMutableTreeNode root = new DefaultMutableTreeNode(states);
 	MinimizeTreeNode root = new MinimizeTreeNode(states);
@@ -519,7 +519,7 @@ public class Minimizer {
 	for(int k = 0; k < states.length; k++) {
 	    if(!automaton.isFinalState(states[k])) list.add(states[k]);
 	}
-	State[] nonFinalStates = (State[]) list.toArray(new State[0]);
+	StateAutomaton[] nonFinalStates = (StateAutomaton[]) list.toArray(new StateAutomaton[0]);
 	
 	int childIndex = 0;
 
@@ -531,7 +531,7 @@ public class Minimizer {
 	    childIndex++;
 	}
 	
-	State[] finalStates = automaton.getFinalStates();
+	StateAutomaton[] finalStates = automaton.getFinalStates();
 	//DefaultMutableTreeNode fstates = 
 	//  new DefaultMutableTreeNode(finalStates);
 	
@@ -559,7 +559,7 @@ public class Minimizer {
 	int index = 0;
 	Iterator it = children.iterator();
 	while(it.hasNext()) {
-	    State[] childGroup = (State[]) it.next();
+	    StateAutomaton[] childGroup = (StateAutomaton[]) it.next();
 	    MinimizeTreeNode child =
 		new MinimizeTreeNode(childGroup);
 	    //DefaultMutableTreeNode child = 
@@ -583,7 +583,7 @@ public class Minimizer {
 	MinimizeTreeNode root = 
 	    (MinimizeTreeNode) tree.getRoot();
 	while(!isMinimized(automaton,tree)) {
-	    State[] group = getDistinguishableGroup(automaton,tree);
+	    StateAutomaton[] group = getDistinguishableGroup(automaton,tree);
 	    ArrayList children = new ArrayList();
 	    String terminal = getTerminalToSplit(group,automaton,tree);
 	    children.addAll(splitOnTerminal(group,terminal,automaton,tree));
@@ -607,7 +607,7 @@ public class Minimizer {
      * @return true if <CODE>states</CODE> contains a state that is
      * a final state in <CODE>automaton</CODE>.
      */
-    public boolean hasFinalState(State[] states, Automaton automaton) {
+    public boolean hasFinalState(StateAutomaton[] states, Automaton automaton) {
 	for(int k = 0; k < states.length; k++) {
 	    if(automaton.isFinalState(states[k])) return true;
 	}
@@ -622,8 +622,8 @@ public class Minimizer {
      * @return true if <CODE>states</CODE> contains the initial state
      * of <CODE>automaton</CODE>.
      */
-    public boolean hasInitialState(State[] states, Automaton automaton) {
-	State initialState = automaton.getInitialState();
+    public boolean hasInitialState(StateAutomaton[] states, Automaton automaton) {
+	StateAutomaton initialState = automaton.getInitialState();
 	for(int k = 0; k < states.length; k++) {
 	    if(states[k] == initialState) return true;
 	}
@@ -635,7 +635,7 @@ public class Minimizer {
      * @param state the state
      * @param group the group of states.
      */
-    public void mapStateToGroup(State state, State[] group) {
+    public void mapStateToGroup(StateAutomaton state, StateAutomaton[] group) {
 	MAP.put(state,group);
     }
 
@@ -644,8 +644,8 @@ public class Minimizer {
      * @param state the state 
      * @return the group (State[]) mapped to <CODE>state</CODE>.
      */
-    public State[] getGroupMappedToState(State state) {
-	return (State[]) MAP.get(state);
+    public StateAutomaton[] getGroupMappedToState(StateAutomaton state) {
+	return (StateAutomaton[]) MAP.get(state);
     }
 
     /**
@@ -666,10 +666,10 @@ public class Minimizer {
 	StatePlacer sp = new StatePlacer();
 	Iterator it = groups.iterator();
 	while(it.hasNext()) {
-	    State[] group = (State[]) it.next();
+	    StateAutomaton[] group = (StateAutomaton[]) it.next();
 	    if(!containsTrapState(group)) {
 		Point point = sp.getPointForState(minDfa);
-		State state = minDfa.createState(point);
+		StateAutomaton state = minDfa.createState(point);
 		state.setLabel(getString(group));
 		if(hasInitialState(group,dfa)) minDfa.setInitialState(state);
 		if(hasFinalState(group,dfa)) minDfa.addFinalState(state);
@@ -686,10 +686,10 @@ public class Minimizer {
      * @return the state from <CODE>minDfa</CODE> that is mapped to
      * <CODE>group</CODE>
      */
-    public State getStateMappedToGroup(State[] group, Automaton minDfa) {
-	State[] states = minDfa.getStates();
+    public StateAutomaton getStateMappedToGroup(StateAutomaton[] group, Automaton minDfa) {
+	StateAutomaton[] states = minDfa.getStates();
 	for(int k = 0; k < states.length; k++) {
-	    State[] tempGroup = getGroupMappedToState(states[k]);
+	    StateAutomaton[] tempGroup = getGroupMappedToState(states[k]);
 	    if(tempGroup == group) return states[k];
 	}
 	return null;
@@ -703,18 +703,18 @@ public class Minimizer {
      * @param dfa the dfa being minimized.
      */
     public ArrayList getTransitionsForState
-	(State state, Automaton minDfa, Automaton dfa, DefaultTreeModel tree) {
+	(StateAutomaton state, Automaton minDfa, Automaton dfa, DefaultTreeModel tree) {
 	ArrayList list = new ArrayList();
-	State[] group = getGroupMappedToState(state);
-	State stateInGroup = group[0];
+	StateAutomaton[] group = getGroupMappedToState(state);
+	StateAutomaton stateInGroup = group[0];
 	Transition[] transitions =
 	    dfa.getTransitionsFromState(stateInGroup);
 	for(int k = 0; k < transitions.length; k++) {
 		FSATransition trans = (FSATransition) transitions[k];
-		State toState = trans.getToState();
-		State[] toGroup = getGroupForState(toState,tree);
+		StateAutomaton toState = trans.getToState();
+		StateAutomaton[] toGroup = getGroupForState(toState,tree);
 		if(!containsTrapState(toGroup)) {
-		    State to = getStateMappedToGroup(toGroup, minDfa);
+		    StateAutomaton to = getStateMappedToGroup(toGroup, minDfa);
 		    
 		    Transition transition =
 			new FSATransition(state, to, trans.getLabel()); 
@@ -738,7 +738,7 @@ public class Minimizer {
 			       MinimizeTreeNode root) {
 	ArrayList list = new ArrayList();
 	if(tree.isLeaf(root)) {
-	    State[] group = (State[]) root.getUserObject();
+	    StateAutomaton[] group = (StateAutomaton[]) root.getUserObject();
 	    list.add(group);
 	}
 	for(int k = 0; k < root.getChildCount(); k++) {
@@ -756,7 +756,7 @@ public class Minimizer {
      * @param states the states.
      * @return true if <CODE>states</CODE> contains the trap state
      */
-    public boolean containsTrapState(State[] states) {
+    public boolean containsTrapState(StateAutomaton[] states) {
 	for(int k = 0; k < states.length; k++) {
 	    if(states[k] == TRAP_STATE) return true;
 	}
@@ -781,7 +781,7 @@ public class Minimizer {
 	createStatesForMinimumDfa(automaton, minDfa, tree);
 	
 	ArrayList list = new ArrayList();
-	State[] states = minDfa.getStates();
+	StateAutomaton[] states = minDfa.getStates();
 	for(int k = 0; k < states.length; k++) {
 	    list.addAll(getTransitionsForState
 			(states[k], minDfa, automaton,tree));
@@ -804,5 +804,5 @@ public class Minimizer {
     protected HashMap MAP;
 
     /** the trap state added to dfa in order to minimize. */
-    protected State TRAP_STATE;
+    protected StateAutomaton TRAP_STATE;
 }

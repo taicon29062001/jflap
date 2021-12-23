@@ -27,7 +27,7 @@
 package file.xml;
 
 import automata.Automaton;
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import automata.turing.*;
 import file.ParseException;
@@ -76,7 +76,7 @@ public class TMTransducer extends AutomatonTransducer {
      * @return the new transition
      */
     protected Transition createTransition
-	(State from, State to, Node node, Map e2t) {
+	(StateAutomaton from, StateAutomaton to, Node node, Map e2t) {
 	TuringMachine tm = (TuringMachine) from.getAutomaton();
 	int tapes = tm.tapes();
 	String[] readStrings=new String[tapes],

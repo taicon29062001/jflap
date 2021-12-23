@@ -34,12 +34,12 @@ import java.util.*;
  * @author Thomas Finley
  */
 
-public class CNFConverter {
+public class CNFConvert {
     /**
      * Instantiates a new chomsky normal converter.
      * @param grammar the grammar to convert
      */
-    public CNFConverter(Grammar grammar) {
+    public CNFConvert(Grammar grammar) {
 	this.grammar = grammar;
 	productionComparator = new ProductionComparator(grammar);
 	productionDirectory = new ProductionDirectory(grammar);
@@ -124,18 +124,22 @@ public class CNFConverter {
 	while (it.hasNext()) replacements.put(it.next(), it2.next());
 	// Make the substitutions.
 	Production[] pnew = new Production[p.length];
-	for (int i=0; i<p.length; i++) {
-	    String[] tokens = separateString(p[i].getRHS());
-	    String rhs = "";
-	    for (int j=0; j<tokens.length; j++)
-		if (tokens[j].length() == 1) rhs+=tokens[j];
-		else rhs+=replacements.get(tokens[j]);
-	    String lhs = p[i].getLHS();
-	    if (lhs.length() != 1) lhs = (String) replacements.get(lhs);
-	    pnew[i] = new Production(lhs, rhs);
-	}
+	makeSubstitution(p, replacements, pnew);
 	return pnew;
     }
+
+	private static void makeSubstitution(Production[] p, HashMap replacements, Production[] pnew) {
+		for (int i=0; i<p.length; i++) {
+		    String[] tokens = separateString(p[i].getRHS());
+		    String rhs = "";
+		    for (int j=0; j<tokens.length; j++)
+			if (tokens[j].length() == 1) rhs+=tokens[j];
+			else rhs+=replacements.get(tokens[j]);
+		    String lhs = p[i].getLHS();
+		    if (lhs.length() != 1) lhs = (String) replacements.get(lhs);
+		    pnew[i] = new Production(lhs, rhs);
+		}
+	}
 
     /**
      * Returns the array of productions needed to replace a production.

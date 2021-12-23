@@ -91,12 +91,12 @@ public class FSALabelHandler {
 	if(restOfLabel.length() > 1) handleLabel(newTrans2, automaton);*/
 
 	FSATransition trans = (FSATransition) transition;
-	State from = transition.getFromState(), f = from, to = transition.getToState();
+	StateAutomaton from = transition.getFromState(), f = from, to = transition.getToState();
 	automaton.removeTransition(trans);
 	String label = trans.getLabel();
 	int length = label.length();
 	for (int i=0; i<length; i++) {
-	    State going = i == length-1 ? to : automaton.createState
+	    StateAutomaton going = i == length-1 ? to : automaton.createState
 		(new java.awt.Point
 		 ((f.getPoint().x*(length-i-1) + to.getPoint().x*(i+1))/length,
 		  (f.getPoint().y*(length-i-1) + to.getPoint().y*(i+1))/length));

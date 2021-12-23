@@ -24,7 +24,7 @@
  * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
  
-package automata;
+package gui.deterministic;
 
 import java.util.*;
 import automata.*;
@@ -59,15 +59,15 @@ public abstract class NondeterminismDetector {
      * @return an array of states that have nondeterminism.
      */
 
-    public State[] getNondeterministicStates(Automaton automaton) {
+    public StateAutomaton[] getNondeterministicStates(Automaton automaton) {
 	LambdaTransitionChecker lc = 
 	    LambdaCheckerFactory.getLambdaChecker(automaton);
 	ArrayList list = new ArrayList();
 	/** Get all states in automaton. */
-	State[] states = automaton.getStates();
+	StateAutomaton[] states = automaton.getStates();
 	/** Check each state for nondeterminism. */
 	for(int k = 0; k < states.length; k++) {
-	    State state = states[k];
+	    StateAutomaton state = states[k];
 	    /** Get all transitions from each state. */
 	    Transition[] transitions = 
 		automaton.getTransitionsFromState(state);
@@ -92,7 +92,7 @@ public abstract class NondeterminismDetector {
 		}
 	    }
 	}
-	return (State[]) list.toArray(new State[0]);
+	return (StateAutomaton[]) list.toArray(new StateAutomaton[0]);
     }
 
 }

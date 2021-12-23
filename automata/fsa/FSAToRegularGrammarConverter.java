@@ -66,8 +66,8 @@ public class FSAToRegularGrammarConverter {
      */
     public void initializeConverter(Automaton automaton) {
 	MAP = new HashMap();
-	State[] states = automaton.getStates();
-	State initialState = automaton.getInitialState();
+	StateAutomaton[] states = automaton.getStates();
+	StateAutomaton initialState = automaton.getInitialState();
 	// Do the variables.
 	VARIABLE = new LinkedList();
 	for (char c = 'A'; c <= 'Z'; c++)
@@ -82,13 +82,13 @@ public class FSAToRegularGrammarConverter {
 	stateList.remove(initialState);
 	Collections.sort(stateList, new Comparator() {
 		public int compare(Object o1, Object o2) {
-		    return ((State)o1).getID() - ((State)o2).getID();
+		    return ((StateAutomaton)o1).getID() - ((StateAutomaton)o2).getID();
 		}
 		public boolean equals(Object o) { return false; }
 	    });
 	Iterator it = stateList.iterator();
 	while (it.hasNext()) {
-	    State state = (State) it.next();
+	    StateAutomaton state = (StateAutomaton) it.next();
 	    MAP.put(state, VARIABLE.removeFirst());
 	}
     }
@@ -103,8 +103,8 @@ public class FSAToRegularGrammarConverter {
     public Production getProductionForTransition(Transition transition) {
 	FSATransition trans = (FSATransition) transition;
 	
-	State toState = trans.getToState();
-	State fromState = trans.getFromState();
+	StateAutomaton toState = trans.getToState();
+	StateAutomaton fromState = trans.getFromState();
 	String label = trans.getLabel();
 	String lhs = (String) MAP.get(fromState);
 	String rhs = label.concat((String) MAP.get(toState));
@@ -122,7 +122,7 @@ public class FSAToRegularGrammarConverter {
      * <CODE>state</CODE> in <CODE>MAP</CODE>.
      */
     public Production getLambdaProductionForFinalState(Automaton automaton, 
-						       State state) {
+						       StateAutomaton state) {
 	/** Check if state is a final state. */
 	if(!automaton.isFinalState(state)) {
 	    System.err.println(state + " IS NOT A FINAL STATE");
@@ -162,7 +162,7 @@ public class FSAToRegularGrammarConverter {
 	
 	/** for all final states in automaton, add lambda
 	 * production. */
-	State[] finalStates = automaton.getFinalStates();
+	StateAutomaton[] finalStates = automaton.getFinalStates();
 	for(int j = 0; j < finalStates.length; j++) {
 	    Production lprod = 
 		getLambdaProductionForFinalState(automaton, 
@@ -180,7 +180,7 @@ public class FSAToRegularGrammarConverter {
      * or <CODE>null</CODE> if there is no variable corresponding to
      * this state
      */
-    public String variableForState(State state) {
+    public String variableForState(StateAutomaton state) {
 	return (String) MAP.get(state);
     }
 

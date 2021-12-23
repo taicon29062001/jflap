@@ -26,7 +26,7 @@
  
 package automata;
 
-import automata.State;
+import automata.StateAutomaton;
 import java.io.Serializable;
 
 /**
@@ -36,7 +36,7 @@ import java.io.Serializable;
  * additional fields containing the particulars necessary for their
  * transition.
  * 
- * @see automata.State
+ * @see automata.StateAutomaton
  * @see automata.Automaton
  * 
  * @author Thomas Finley
@@ -48,7 +48,7 @@ public abstract class Transition implements Serializable, Cloneable {
      * @param from the state this transition is from
      * @param to the state this transition moves to
      */
-    public Transition(State from, State to) {
+    public Transition(StateAutomaton from, StateAutomaton to) {
 	this.from = from;
 	this.to = to;
     }
@@ -60,7 +60,7 @@ public abstract class Transition implements Serializable, Cloneable {
      * @param to the state this transition comes from
      * @return a copy of this transition as described
      */
-    public abstract Transition copy(State from, State to);
+    public abstract Transition copy(StateAutomaton from, StateAutomaton to);
 
     /**
      * Returns a copy of this transition with the same <CODE>from</CODE>
@@ -75,7 +75,7 @@ public abstract class Transition implements Serializable, Cloneable {
      * Returns the state this transition eminates from.
      * @return the state this transition eminates from
      */
-    public State getFromState(){
+    public StateAutomaton getFromState(){
 	return this.from;
     }
     
@@ -83,7 +83,7 @@ public abstract class Transition implements Serializable, Cloneable {
      * Returns the state this transition travels to.
      * @return the state this transition travels to
      */
-    public State getToState(){
+    public StateAutomaton getToState(){
 	return this.to;
     }
 
@@ -139,5 +139,5 @@ public abstract class Transition implements Serializable, Cloneable {
     }
     
     /** The states this transition goes between. */
-    protected State from, to;
+    protected StateAutomaton from, to;
 }

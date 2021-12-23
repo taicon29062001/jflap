@@ -103,15 +103,15 @@ public class CFGToPDALRConverter
 	initialize();
 	StatePlacer sp = new StatePlacer();
 
-	State initialState = 
+	StateAutomaton initialState = 
 	    automaton.createState(sp.getPointForState(automaton));
 	automaton.setInitialState(initialState);
 	START_STATE = initialState;
 
-	State intermediateState = 
+	StateAutomaton intermediateState = 
 	    automaton.createState(sp.getPointForState(automaton));
 	
-	State finalState = 
+	StateAutomaton finalState = 
 	    automaton.createState(sp.getPointForState(automaton));
 	automaton.addFinalState(finalState);
 
@@ -135,6 +135,6 @@ public class CFGToPDALRConverter
     }
 
     /** The start state. */
-    protected State START_STATE;
+    protected StateAutomaton START_STATE;
 
 }

@@ -114,8 +114,8 @@ public class REToFSAController {
 	    pStart.y = Math.max(pStart.y, 20);
 	    pEnd.x = Math.max(pEnd.x, 20);
 	    pEnd.y = Math.max(pEnd.y, 20);
-	    State s = automaton.createState(pStart);
-	    State e = automaton.createState(pEnd);
+	    StateAutomaton s = automaton.createState(pStart);
+	    StateAutomaton e = automaton.createState(pEnd);
 	    t[i] = new FSATransition(s, e, exps[i]);
 	    automaton.addTransition(t[i]);
 	    if (requiredAction(t[i].getLabel()) != 0) toDo.add(t[i]);
@@ -148,8 +148,8 @@ public class REToFSAController {
 	String label = transition.getLabel();
 	switch (action) {
 	case DEPARENS: {
-	    State s1=transition.getFromState(), s2=transition.getToState();
-	    String newLabel=Discretizer.delambda
+	    StateAutomaton s1=transition.getFromState(), s2=transition.getToState();
+	    String newLabel=Discretizer.lambdaString
 		(label.substring(1,label.length()-1));
 	    automaton.removeTransition(transition);
 	    FSATransition t = new FSATransition(s1, s2, newLabel);
@@ -161,7 +161,7 @@ public class REToFSAController {
 	} case DESTAR:
 	    replacements = replaceTransition
 		(transition, new String[] 
-		{Discretizer.delambda(label.substring(0, label.length()-1))});
+		{Discretizer.lambdaString(label.substring(0, label.length()-1))});
 	    transitionNeeded = 4;
 	    break;
 	case DEOR:
@@ -185,7 +185,7 @@ public class REToFSAController {
      * @param to the to state
      * @return a lambda-transition between those states
      */
-    private FSATransition lambda(State from, State to) {
+    private FSATransition lambda(StateAutomaton from, StateAutomaton to) {
 	return new FSATransition(from, to, "");
     }
 
@@ -198,8 +198,8 @@ public class REToFSAController {
 	    FSATransition t = (FSATransition) it.next();
 	    transitionCheck(t);
 	}
-	State from = transition.getFromState();
-	State to = transition.getToState();
+	StateAutomaton from = transition.getFromState();
+	StateAutomaton to = transition.getToState();
 	switch (action) {
 	case DEPARENS:
 	    // Probably a deparenthesization, or whatever.
@@ -264,7 +264,7 @@ public class REToFSAController {
      * @param from the from state
      * @param to the to state
      */
-    public void transitionCreate(State from, State to) {
+    public void transitionCreate(StateAutomaton from, StateAutomaton to) {
 	boolean alreadyHere =
 	    automaton.getTransitionsFromStateToState(from, to).length != 0;
 	boolean valid = false;

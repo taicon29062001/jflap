@@ -277,7 +277,7 @@ class UnitController {
      * @param state the state that was clicked
      * @param event the mouse event associated with the click
      */
-    void stateClicked(State state, MouseEvent event) {
+    void stateClicked(StateAutomaton state, MouseEvent event) {
 	if (event.isShiftDown()) {
 	    if (state == null) return;
 	    if (pane.vdgDrawer.isSelected(state))

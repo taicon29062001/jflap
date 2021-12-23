@@ -24,8 +24,9 @@
  * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
  
-package automata;
+package gui.deterministic;
 
+import automata.Automaton;
 import automata.fsa.FSANondeterminismDetector;
 import automata.pda.PDANondeterminismDetector;
 import automata.turing.TMNondeterminismDetector;

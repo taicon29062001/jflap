@@ -26,7 +26,7 @@
  
 package gui.editor;
 
-import automata.State;
+import automata.StateAutomaton;
 import automata.StateRenamer;
 import automata.Transition;
 import automata.graph.*;
@@ -168,7 +168,7 @@ public class ArrowTool extends Tool {
 	    Point p = event.getPoint();
 	    int x = p.x - initialPointClick.x;
 	    int y = p.y - initialPointClick.y;
-	    State f = lastClickedTransition.getFromState(),
+	    StateAutomaton f = lastClickedTransition.getFromState(),
 		t = lastClickedTransition.getToState();
 	    f.getPoint().translate(x,y);
 	    f.setPoint(f.getPoint());
@@ -231,7 +231,7 @@ public class ArrowTool extends Tool {
 	    this.add(deleteAllLabels);
 	}
 
-	public void show(State state, Component comp, Point at) {
+	public void show(StateAutomaton state, Component comp, Point at) {
 	    this.state = state;
 	    makeFinal.setSelected(getAutomaton().isFinalState(state));
 	    makeInitial.setSelected(getAutomaton().getInitialState()==state);
@@ -263,13 +263,13 @@ public class ArrowTool extends Tool {
 	    } else if (item == deleteLabel) {
 		state.setLabel(null);
 	    } else if (item == deleteAllLabels) {
-		State[] states = getAutomaton().getStates();
+		StateAutomaton[] states = getAutomaton().getStates();
 		for (int i=0; i<states.length; i++) states[i].setLabel(null);
 	    }
 	    getView().repaint();
 	}
 
-	private State state = null;
+	private StateAutomaton state = null;
 	private JCheckBoxMenuItem makeFinal, makeInitial;
 	private JMenuItem changeLabel, deleteLabel, deleteAllLabels;
     }
@@ -331,7 +331,7 @@ public class ArrowTool extends Tool {
     private TransitionCreator creator;
 
     /** The state that was last clicked. */
-    private State lastClickedState = null;
+    private StateAutomaton lastClickedState = null;
     /** The transition that was last clicked. */
     private Transition lastClickedTransition = null;
     /** The initial point of the state. */

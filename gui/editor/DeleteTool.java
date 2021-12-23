@@ -26,7 +26,7 @@
  
 package gui.editor;
 
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import gui.viewer.AutomatonDrawer;
 import gui.viewer.AutomatonPane;
@@ -81,7 +81,7 @@ public class DeleteTool extends Tool {
      * @param event the mouse event
      */
     public void mouseClicked(MouseEvent event) {
-	State state = getDrawer().stateAtPoint(event.getPoint());
+	StateAutomaton state = getDrawer().stateAtPoint(event.getPoint());
 	if (state != null) {
 	    getAutomaton().removeState(state);
 	    getView().repaint();

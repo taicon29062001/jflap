@@ -59,10 +59,10 @@ public class Discretizer {
 	    if (expression.charAt(i) != '+') continue;
 	    if (level != 0) continue;
 	    // First level or!
-	    se.add(delambda(expression.substring(start, i)));
+	    se.add(lambdaString(expression.substring(start, i)));
 	    start = i+1;
 	}
-	se.add(delambda(expression.substring(start)));
+	se.add(lambdaString(expression.substring(start)));
 	return (String[]) se.toArray(new String[0]);
     }
 
@@ -93,10 +93,10 @@ public class Discretizer {
 	    if (c == '*') continue;
 	    // Not an operator, and on the first level!
 	    if (i==0) continue;
-	    se.add(delambda(expression.substring(start, i)));
+	    se.add(lambdaString(expression.substring(start, i)));
 	    start = i;
 	}
-	se.add(delambda(expression.substring(start)));
+	se.add(lambdaString(expression.substring(start)));
 	return (String[]) se.toArray(new String[0]);
     }
     
@@ -114,7 +114,7 @@ public class Discretizer {
      * @return the string, or the empty string if the string is the
      * lambda string
      */
-    public static String delambda(String string) {
+    public static String lambdaString(String string) {
 	return string.equals("\u03BB") ? "" : string;
     }
 }

@@ -27,7 +27,7 @@
 package automata.pda;
 
 import automata.Transition;
-import automata.State;
+import automata.StateAutomaton;
 
 /**
  * A <CODE>PDATransition</CODE> is a <CODE>Transition</CODE> object
@@ -51,7 +51,7 @@ public class PDATransition extends Transition {
      * @param stringToPush the string that the machine should
      * push on to the stack.
      */
-    public PDATransition(State from, State to, String inputToRead, 
+    public PDATransition(StateAutomaton from, StateAutomaton to, String inputToRead, 
 			 String stringToPop, String stringToPush) {
 	super(from, to);
 	setInputToRead(inputToRead);
@@ -66,7 +66,7 @@ public class PDATransition extends Transition {
      * @return a copy of this trnasition with the new from and to
      * states
      */
-    public Transition copy(State from, State to) {
+    public Transition copy(StateAutomaton from, StateAutomaton to) {
 	return new PDATransition(from, to, getInputToRead(),
 				 getStringToPop(), getStringToPush());
     }

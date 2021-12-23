@@ -67,8 +67,8 @@ public abstract class GrammarToAutomatonConverter {
      * @param variable the variable
      * @return the State object mapped to <CODE>variable</CODE>
      */
-    public State getStateForVariable(String variable) {
-	return (State) MAP.get(variable);
+    public StateAutomaton getStateForVariable(String variable) {
+	return (StateAutomaton) MAP.get(variable);
     }
 
     /**
@@ -76,7 +76,7 @@ public abstract class GrammarToAutomatonConverter {
      * @param state the state
      * @param variable the variable
      */
-    public void mapStateToVariable(State state, String variable) {
+    public void mapStateToVariable(StateAutomaton state, String variable) {
 	MAP.put(variable, state);
     }
 

@@ -27,7 +27,7 @@
 package automata.turing;
 
 import automata.Transition;
-import automata.State;
+import automata.StateAutomaton;
 import java.util.*;
 
 /**
@@ -49,7 +49,7 @@ public class TMTransition extends Transition {
      * the tape
      * @param ndirection the direction to move the read/write tape head
      */
-    public TMTransition(State from, State to,
+    public TMTransition(StateAutomaton from, StateAutomaton to,
 			String ntoRead, String ntoWrite, String ndirection) {
 	this(from, to, new String[] {ntoRead}, new String[] {ntoWrite},
 	     new String[] {ndirection});
@@ -70,7 +70,7 @@ public class TMTransition extends Transition {
      * @throws IllegalArgumentException if the number of elements in
      * each array is not the same, or the arrays are empty
      */
-    public TMTransition(State from, State to,
+    public TMTransition(StateAutomaton from, StateAutomaton to,
 			String[] toReadArray, String[] toWriteArray,
 			String[] directionArray) {
 	super(from, to);
@@ -100,7 +100,7 @@ public class TMTransition extends Transition {
      * @param to the new to state
      * @return a copy of this transition with the new states
      */
-    public Transition copy(State from, State to) {
+    public Transition copy(StateAutomaton from, StateAutomaton to) {
 	String[] s = new String[0];
 	return new TMTransition(from, to, (String[])toRead.toArray(s),
 				(String[])toWrite.toArray(s),

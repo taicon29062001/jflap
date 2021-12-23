@@ -111,12 +111,12 @@ public class CombineAutomaton extends AutomatonAction {
 	if (bounds1 == null) bounds1 = new Rectangle2D.Float();
 	if (bounds2 == null) bounds2 = new Rectangle2D.Float();
 	double d = bounds1.getY()+bounds1.getHeight()-bounds2.getY()+20.0;
-	State[] otherStates = other.getStates();
+	StateAutomaton[] otherStates = other.getStates();
 	Map otherToNew = new HashMap();
 	for (int i=0; i<otherStates.length; i++) {
-	    State s = otherStates[i];
+	    StateAutomaton s = otherStates[i];
 	    Point p = new Point(s.getPoint().x, s.getPoint().y+(int)d);
-	    State s2 = newOne.createState(p);
+	    StateAutomaton s2 = newOne.createState(p);
 	    if (other.isFinalState(s)) newOne.addFinalState(s2);
 	    s2.setLabel(s.getLabel());
 	    otherToNew.put(s, s2);
@@ -124,8 +124,8 @@ public class CombineAutomaton extends AutomatonAction {
 	Transition[] otherTransitions = other.getTransitions();
 	for (int i=0; i<otherTransitions.length; i++) {
 	    Transition t = otherTransitions[i];
-	    State from = (State) otherToNew.get(t.getFromState()),
-		to = (State) otherToNew.get(t.getToState());
+	    StateAutomaton from = (StateAutomaton) otherToNew.get(t.getFromState()),
+		to = (StateAutomaton) otherToNew.get(t.getToState());
 	    newOne.addTransition(t.copy(from, to));
 	}
     }

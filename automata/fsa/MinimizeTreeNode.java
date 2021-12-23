@@ -86,8 +86,8 @@ public class MinimizeTreeNode extends DefaultMutableTreeNode {
      * Returns the states on this node.
      * @return the array of states for this group
      */
-    public State[] getStates() {
-	return (State[]) getUserObject();
+    public StateAutomaton[] getStates() {
+	return (StateAutomaton[]) getUserObject();
     }
 
     /** The node's terminal field. */

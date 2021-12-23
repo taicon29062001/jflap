@@ -26,7 +26,7 @@
  
 package gui.editor;
 
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import gui.viewer.AutomatonDrawer;
 import gui.viewer.AutomatonPane;
@@ -117,7 +117,7 @@ public class TransitionTool extends Tool {
     public void mouseReleased(MouseEvent event) {
 	// Did we even start at a state?
 	if (first == null) return;
-	State state = getDrawer().stateAtPoint(event.getPoint());
+	StateAutomaton state = getDrawer().stateAtPoint(event.getPoint());
 	if (state != null) {
 	    creator.createTransition(first, state);
 	    /*if (t != null)
@@ -151,7 +151,7 @@ public class TransitionTool extends Tool {
     }
 
     /** The first clicked state. */
-    protected State first;
+    protected StateAutomaton first;
     /** The point over which we are hovering. */
     protected Point hover;
     /** The transition creator. */

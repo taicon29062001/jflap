@@ -28,6 +28,7 @@ package automata.fsa;
 
 import automata.*;
 import automata.fsa.*;
+import gui.deterministic.NondeterminismDetector;
 
 /**
  * The FSA nondeterminism detector object can be used to

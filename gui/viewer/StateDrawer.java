@@ -26,7 +26,7 @@
  
 package gui.viewer;
 
-import automata.State;
+import automata.StateAutomaton;
 import automata.Automaton;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -63,7 +63,7 @@ public class StateDrawer {
      * @param automaton the automaton this state is a part of
      * @param state the state to draw
      */
-    public void drawState(Graphics g, Automaton automaton, State state) {
+    public void drawState(Graphics g, Automaton automaton, StateAutomaton state) {
 	this.drawState(g,automaton,state,state.getPoint());
     }
 
@@ -77,7 +77,7 @@ public class StateDrawer {
      * @param point the point to draw the state at
      */
     public void drawState(Graphics g, Automaton automaton,
-			  State state, Point point) {
+			  StateAutomaton state, Point point) {
 	drawState(g, automaton, state, point, STATE_COLOR);
     }
 
@@ -91,7 +91,7 @@ public class StateDrawer {
      * @param color the color of the inner portion of the state
      */
     public void drawState(Graphics g, Automaton automaton,
-			  State state, Point point, Color color) {
+			  StateAutomaton state, Point point, Color color) {
 	// Draw the basic background of the state.
 	drawBackground(g, state, point, color);
 	// What about the text label?
@@ -127,7 +127,7 @@ public class StateDrawer {
      * thing as any point where the label gets drawn
      * @param color the background color of the label
      */
-    public void drawStateLabel(Graphics g, State state, Point point,
+    public void drawStateLabel(Graphics g, StateAutomaton state, Point point,
 			       Color color) {
 	String[] labels = state.getLabels();
 	if (labels.length == 0) return;
@@ -170,7 +170,7 @@ public class StateDrawer {
      * @param point the point where the background should be centered
      * @param color the color of the background, if supported by this class
      */
-    public void drawBackground(Graphics g, State state,
+    public void drawBackground(Graphics g, StateAutomaton state,
 			       Point point, Color color) {
 	g.setColor(color);
 	g.fillOval(point.x - radius, point.y - radius,

@@ -27,7 +27,7 @@
 package gui.editor;
 
 import automata.Automaton;
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import automata.fsa.FSATransition;
 import gui.viewer.AutomatonPane;
@@ -57,7 +57,7 @@ public class FSATransitionCreator extends TableTransitionCreator {
      * @param from the from state
      * @param to to too state
      */
-    protected Transition initTransition(State from, State to) {
+    protected Transition initTransition(StateAutomaton from, StateAutomaton to) {
 	return new FSATransition(from, to, "");
     }
 

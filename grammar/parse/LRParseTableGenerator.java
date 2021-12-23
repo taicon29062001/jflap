@@ -71,7 +71,7 @@ public abstract class LRParseTableGenerator {
 	    }
 	}
 	// Find the acceptance and reduction.
-	State[] finals = gotoGraph.getFinalStates();
+	StateAutomaton[] finals = gotoGraph.getFinalStates();
 	for (int i=0; i<finals.length; i++) {
 	    Set items = (Set) stateToItems.get(finals[i]);
 	    Iterator it = items.iterator();

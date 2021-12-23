@@ -26,7 +26,7 @@
  
 package gui.editor;
 
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import automata.pda.PDATransition;
 import automata.turing.*;
@@ -61,7 +61,7 @@ public class TMTransitionCreator extends TableTransitionCreator {
      * @param from the from state
      * @param to to too state
      */
-    protected Transition initTransition(State from, State to) {
+    protected Transition initTransition(StateAutomaton from, StateAutomaton to) {
 	String[] readWrite = new String[machine.tapes()];
 	for (int i=0; i<readWrite.length; i++) readWrite[i] = "";
 	String[] direction = new String[machine.tapes()];

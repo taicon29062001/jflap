@@ -72,14 +72,14 @@ public class NFAToDFA {
      * @param nfa the nfa being converted to a dfa
      * @param dfa the dfa being built during the conversion.
      */
-    public State createInitialState(Automaton nfa, Automaton dfa) {
+    public StateAutomaton createInitialState(Automaton nfa, Automaton dfa) {
 	/** get closure of initial state from nfa. */
-	State initialState = nfa.getInitialState();
+	StateAutomaton initialState = nfa.getInitialState();
 	ClosureTaker fsac = new ClosureTaker();
-	State[] initialClosure = fsac.getClosure(initialState, nfa);
+	StateAutomaton[] initialClosure = fsac.getClosure(initialState, nfa);
 	/** create state in dfa to represent closure of initial
 	 * state in nfa. */
-	State state = createStateWithStates(dfa,initialClosure,nfa);
+	StateAutomaton state = createStateWithStates(dfa,initialClosure,nfa);
 	//StatePlacer sp = new StatePlacer();
 	//Point point = sp.getPointForState(dfa);
 	//State state = dfa.createState(point);
@@ -100,7 +100,7 @@ public class NFAToDFA {
      * @return true if one or more of the states in <CODE>states</CODE>
      * are final
      */
-    public boolean hasFinalState(State[] states, Automaton automaton) {
+    public boolean hasFinalState(StateAutomaton[] states, Automaton automaton) {
 	for(int k = 0; k < states.length; k++) {
 	    if (automaton.isFinalState(states[k])) return true;
 	}
@@ -114,15 +114,15 @@ public class NFAToDFA {
      * <CODE>state</CODE>.
      * @return the State array mapped to <CODE>state</CODE>.
      */
-    public State[] getStatesForState(State state, Automaton automaton) {
-	if (state.getLabel() == null) return new State[0];
+    public StateAutomaton[] getStatesForState(StateAutomaton state, Automaton automaton) {
+	if (state.getLabel() == null) return new StateAutomaton[0];
 	StringTokenizer tokenizer =
 	    new StringTokenizer(state.getLabel(), " \t\n\r\f,q");
 	ArrayList states = new ArrayList();
 	while (tokenizer.hasMoreTokens())
 	    states.add(automaton.getStateWithID
 		       (Integer.parseInt(tokenizer.nextToken())));
-	return (State[]) states.toArray(new State[0]);
+	return (StateAutomaton[]) states.toArray(new StateAutomaton[0]);
     }
 
     /**
@@ -130,7 +130,7 @@ public class NFAToDFA {
      * @param states the set of states.
      * @return a string representation of <CODE>states</CODE>.
      */
-    public String getStringForStates(State[] states) {
+    public String getStringForStates(StateAutomaton[] states) {
 	StringBuffer buffer = new StringBuffer();
 	for(int k = 0; k < states.length - 1; k++) {
 	    buffer.append(Integer.toString(states[k].getID()));
@@ -152,19 +152,19 @@ public class NFAToDFA {
      * <CODE>states</CODE>, including the closure of all reachable
      * states.
      */
-    public State[] getStatesOnTerminal(String terminal, State[] states, 
+    public StateAutomaton[] getStatesOnTerminal(String terminal, StateAutomaton[] states, 
 				       Automaton automaton) {
 	ArrayList list = new ArrayList();
 	for(int k = 0; k < states.length; k++) {
-	    State state = states[k];
+	    StateAutomaton state = states[k];
 	    Transition[] transitions = 
 		automaton.getTransitionsFromState(state);
 	    for(int i = 0; i < transitions.length; i++) {
 		FSATransition transition = (FSATransition) transitions[i];
 		if(transition.getLabel().equals(terminal)) {
-		    State toState = transition.getToState();
+		    StateAutomaton toState = transition.getToState();
 		    ClosureTaker fct = new ClosureTaker();
-		    State[] closure = fct.getClosure(toState, automaton);
+		    StateAutomaton[] closure = fct.getClosure(toState, automaton);
 		    for(int j = 0; j < closure.length; j++) {
 			if(!list.contains(closure[j])) { 
 			    list.add(closure[j]);
@@ -173,7 +173,7 @@ public class NFAToDFA {
 		}
 	    }
 	}
-	return (State[]) list.toArray(new State[0]);
+	return (StateAutomaton[]) list.toArray(new StateAutomaton[0]);
     }
 
     /**
@@ -184,7 +184,7 @@ public class NFAToDFA {
      * @return true if <CODE>states</CODE> contains 
      * <CODE>state</CODE>
      */
-    private boolean containsState(State state, State[] states) {
+    private boolean containsState(StateAutomaton state, StateAutomaton[] states) {
 	for(int k = 0; k < states.length; k++) {
 	    if(states[k] == state) return true;
 	}
@@ -201,7 +201,7 @@ public class NFAToDFA {
      * are identical (i.e. they contain exactly the same states,
      * and no extras).
      */
-    public boolean containSameStates(State[] states1, State[] states2) {
+    public boolean containSameStates(StateAutomaton[] states1, StateAutomaton[] states2) {
 	int len1 = states1.length;
 	int len2 = states2.length;
 	if(len1 != len2) return false;
@@ -218,11 +218,11 @@ public class NFAToDFA {
      * mapped to <CODE>states</CODE>
      * @return the State mapped to <CODE>states</CODE>.
      */
-    public State getStateForStates
-	(State[] states, Automaton dfa, Automaton nfa) {
-	State[] dfaStates = dfa.getStates();
+    public StateAutomaton getStateForStates
+	(StateAutomaton[] states, Automaton dfa, Automaton nfa) {
+	StateAutomaton[] dfaStates = dfa.getStates();
 	for(int k = 0; k < dfaStates.length; k++) {
-	    State[] nfaStates = getStatesForState(dfaStates[k],nfa);
+	    StateAutomaton[] nfaStates = getStatesForState(dfaStates[k],nfa);
 	    if(containSameStates(nfaStates, states)) {
 		return dfaStates[k];
 	    }
@@ -248,7 +248,7 @@ public class NFAToDFA {
      * @param dfa the dfa being built from the conversion
      * @return a list of States created by expanding <CODE>state</CODE>.
      */
-    public ArrayList expandState(State state, Automaton nfa, Automaton dfa) {
+    public ArrayList expandState(StateAutomaton state, Automaton nfa, Automaton dfa) {
 	ArrayList list = new ArrayList();
 	AlphabetRetriever far = new FSAAlphabetRetriever();
 	String[] alphabet = far.getAlphabet(nfa);
@@ -256,13 +256,13 @@ public class NFAToDFA {
 	for(int k = 0; k < alphabet.length; k++) {
 	    /** get states reachable on terminal from all states
 	     * represented by state. */
-	    State[] states = getStatesOnTerminal
+	    StateAutomaton[] states = getStatesOnTerminal
 		(alphabet[k], getStatesForState(state,nfa), nfa);
 	    /** if any reachable states on terminal. */
 	    if(states.length > 0) {
 		/** get state from dfa that represents list of
 		 * reachable states in nfa. */
-		State toState = getStateForStates(states, dfa,nfa);
+		StateAutomaton toState = getStateForStates(states, dfa,nfa);
 		/** if no such state. */
 		if(toState == null) {
 		    /** create state, add to list */
@@ -295,10 +295,10 @@ public class NFAToDFA {
      * @param nfa the nfa
      * @return the created state
      */
-    public State createStateWithStates
-	(Automaton dfa, State[] states, Automaton nfa) {
+    public StateAutomaton createStateWithStates
+	(Automaton dfa, StateAutomaton[] states, Automaton nfa) {
 	StatePlacer sp = new StatePlacer();
-	State state = dfa.createState(sp.getPointForState(dfa));
+	StateAutomaton state = dfa.createState(sp.getPointForState(dfa));
 	state.setLabel(getStringForStates(states));
 	if(hasFinalState(states,nfa)) {
 	    dfa.addFinalState(state);
@@ -327,7 +327,7 @@ public class NFAToDFA {
 	}
 	/** create new finite state automaton. */
 	FiniteStateAutomaton dfa = new FiniteStateAutomaton();
-	State initialState = createInitialState(automaton, dfa);
+	StateAutomaton initialState = createInitialState(automaton, dfa);
 	/** get initial state and add to list of states that 
 	 * need to be expanded. */
 	ArrayList list = new ArrayList();
@@ -337,7 +337,7 @@ public class NFAToDFA {
 	    ArrayList statesToExpand = new ArrayList();
 	    Iterator it = list.iterator();
 	    while(it.hasNext()) {
-		State state = (State) it.next();
+		StateAutomaton state = (StateAutomaton) it.next();
 		/** expand state. */
 		statesToExpand.addAll(expandState(state, automaton, dfa));
 		it.remove();

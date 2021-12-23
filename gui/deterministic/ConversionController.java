@@ -68,7 +68,7 @@ public class ConversionController {
 
     private void initializeGraph() {
 	Map stateToSet = new HashMap(); // Different...
-	State[] s = answer.getStates();
+	StateAutomaton[] s = answer.getStates();
 	Transition[] t = answer.getTransitions();
 	for (int i=0; i<s.length; i++) {
 	    Set fromNfa = new HashSet(Arrays.asList(getStatesForString
@@ -99,7 +99,7 @@ public class ConversionController {
 	dfa.getInitialState().setPoint(p);
     }
 
-    private State[] getStatesForString(String label, Automaton automaton) {
+    private StateAutomaton[] getStatesForString(String label, Automaton automaton) {
 	StringTokenizer tokenizer =
 	    new StringTokenizer(label, " \t\n\r\f,q");
 	ArrayList states = new ArrayList();
@@ -107,7 +107,7 @@ public class ConversionController {
 	    states.add(automaton.getStateWithID
 		       (Integer.parseInt(tokenizer.nextToken())));
 	states.remove(null);
-	return (State[]) states.toArray(new State[0]);
+	return (StateAutomaton[]) states.toArray(new StateAutomaton[0]);
     }
 
     /**
@@ -116,10 +116,10 @@ public class ConversionController {
      * @throws IllegalArgumentException if the state registered
      * conflicts with any existing
      */
-    private void registerState(State state) {
+    private void registerState(StateAutomaton state) {
 	Set set = new HashSet(Arrays.asList(getStatesForString
 					    (state.getLabel(), nfa)));
-	State inMap = (State) setToState.get(set);
+	StateAutomaton inMap = (StateAutomaton) setToState.get(set);
 	if (inMap != null && inMap != state)
 	    throw new IllegalArgumentException("This set is in the DFA!");
 	setToState.put(set, state);
@@ -131,14 +131,14 @@ public class ConversionController {
      * the transitions of a state with no user interaction.
      * @param state the state to expand
      */
-    public void expandState(State state) {
+    public void expandState(StateAutomaton state) {
 	List createdStates = converter.expandState(state, nfa, dfa);
 	// We want to lay out those states.
 	// First, get the sets of states the new states represent.
 	Set iso = new HashSet(setToState.keySet()), added = new HashSet();
 	Iterator it = createdStates.iterator();
 	while (it.hasNext()) {
-	    State dfaState = (State) it.next();
+	    StateAutomaton dfaState = (StateAutomaton) it.next();
 	    registerState(dfaState);
 	    iso.remove(stateToSet.get(dfaState));
 	}
@@ -146,7 +146,7 @@ public class ConversionController {
 	layout.layout(graph, iso);
 	it = createdStates.iterator();
 	while (it.hasNext()) {
-	    State dfaState = (State) it.next();
+	    StateAutomaton dfaState = (StateAutomaton) it.next();
 	    Object o = stateToSet.get(dfaState);
 	    dfaState.getPoint().setLocation(graph.pointForVertex(o));
 	    dfaState.setPoint(dfaState.getPoint());
@@ -161,7 +161,7 @@ public class ConversionController {
      * @param end optionally the state the mouse was released on, or
      * <CODE>null</CODE>
      */
-    public void expandState(State start, Point point, State end) {
+    public void expandState(StateAutomaton start, Point point, StateAutomaton end) {
 	// Ask the user for a terminal.
 	String terminal = JOptionPane.showInputDialog
 	    (view, "Expand on what terminal?");
@@ -174,8 +174,8 @@ public class ConversionController {
 	    return;
 	}
 
-	State[] states = getStatesForString(start.getLabel(), nfa);
-	State[] endStates = converter.getStatesOnTerminal
+	StateAutomaton[] states = getStatesForString(start.getLabel(), nfa);
+	StateAutomaton[] endStates = converter.getStatesOnTerminal
 	    (terminal, states, nfa);
 	    
 	if (endStates.length == 0) {
@@ -193,7 +193,7 @@ public class ConversionController {
 		(view, "Which group of NFA states will that go to on "
 		 +terminal+"?");
 	if (userEnd == null) return;
-	State[] userEndStates = endStates;
+	StateAutomaton[] userEndStates = endStates;
 	try {
 	    if (end == null)
 		userEndStates = getStatesForString(userEnd, nfa);
@@ -211,7 +211,7 @@ public class ConversionController {
 	    return;
 	}
 
-	State end2 = converter.getStateForStates(userEndStates, dfa, nfa);
+	StateAutomaton end2 = converter.getStateForStates(userEndStates, dfa, nfa);
 	if (end == null) end = end2;
 	if (end != end2) {
 	    // Group mismatch.
@@ -255,7 +255,7 @@ public class ConversionController {
 	dfa.addStateListener(listener);
 
 	while (stateQueue.size() != 0)
-	    expandState((State) stateQueue.removeFirst());
+	    expandState((StateAutomaton) stateQueue.removeFirst());
 
 	// Remove the state listener.
 	dfa.removeStateListener(listener);

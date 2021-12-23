@@ -79,7 +79,7 @@ class BuilderController {
      */
     private void determineTransitions() {
 	remainingTransitions = new HashSet();
-	State[] states = minDfa.getStates();
+	StateAutomaton[] states = minDfa.getStates();
 	for (int i=0; i<states.length; i++)
 	    remainingTransitions.addAll
 		(minimizer.getTransitionsForState

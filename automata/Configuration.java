@@ -47,7 +47,7 @@ public abstract class Configuration {
      * Instantiates a new configuration.
      * @param state the state the automaton is currently in.
      */
-    public Configuration(State state, Configuration parent) {
+    public Configuration(StateAutomaton state, Configuration parent) {
 	myCurrentState = state;
 	this.parent = parent;
     }
@@ -56,7 +56,7 @@ public abstract class Configuration {
      * Returns the state the automaton is currently occupying.
      * @return the state the automaton is currently occupying.
      */
-    public State getCurrentState() {
+    public StateAutomaton getCurrentState() {
 	return myCurrentState;
     }
 
@@ -64,7 +64,7 @@ public abstract class Configuration {
      * Sets current state.
      * @param state the state the automaton is currently in.
      */
-    public void setCurrentState(State state) {
+    public void setCurrentState(StateAutomaton state) {
 	myCurrentState = state;
     }
 
@@ -133,7 +133,7 @@ public abstract class Configuration {
     }
     
     /** The state the automaton is currently in. */
-    private State myCurrentState;
+    private StateAutomaton myCurrentState;
     /** The parent for this configuration. */
     private Configuration parent;
 }

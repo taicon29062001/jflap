@@ -58,8 +58,8 @@ public class FSAStepWithClosureSimulator extends FSAStepByStateSimulator {
      * @param input the input string.
      */
     public Configuration[] getInitialConfigurations(String input) {
-	State init = myAutomaton.getInitialState();
-	State[] closure = ClosureTaker.getClosure(init, myAutomaton);
+	StateAutomaton init = myAutomaton.getInitialState();
+	StateAutomaton[] closure = ClosureTaker.getClosure(init, myAutomaton);
 	Configuration[] configs = new Configuration[closure.length];
 	for(int k = 0; k < closure.length; k++) {
 	    configs[k] = new FSAConfiguration(closure[k], null, input, input);
@@ -80,7 +80,7 @@ public class FSAStepWithClosureSimulator extends FSAStepByStateSimulator {
 	/** get all information from configuration. */
 	String unprocessedInput = configuration.getUnprocessedInput();
 	String totalInput = configuration.getInput();
-	State currentState = configuration.getCurrentState();
+	StateAutomaton currentState = configuration.getCurrentState();
 	Transition[] transitions = 
 	    myAutomaton.getTransitionsFromState(currentState);
 	for (int k = 0; k < transitions.length; k++) {
@@ -94,8 +94,8 @@ public class FSAStepWithClosureSimulator extends FSAStepByStateSimulator {
 			input = 
 			    unprocessedInput.substring(transLabel.length()); 
 		    }
-		    State toState = transition.getToState();
-		    State[] closure = 
+		    StateAutomaton toState = transition.getToState();
+		    StateAutomaton[] closure = 
 			ClosureTaker.getClosure(toState,myAutomaton);
 		    for(int i = 0; i < closure.length; i++) {
 			FSAConfiguration configurationToAdd = 

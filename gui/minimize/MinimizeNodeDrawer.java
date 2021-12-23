@@ -35,7 +35,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
 import java.util.Arrays;
 import java.util.HashMap;
-import automata.State;
+import automata.StateAutomaton;
 
 /**
  * The <CODE>MinimizeNodeDrawer</CODE> is used to draw
@@ -77,7 +77,7 @@ public class MinimizeNodeDrawer extends DefaultNodeDrawer {
      * @return a string of the states IDs of the node
      */
     private static String getStateString(MinimizeTreeNode node) {
-	State[] states = (State[]) node.getUserObject();
+	StateAutomaton[] states = (StateAutomaton[]) node.getUserObject();
 	int[] ids = new int[states.length];
 	for (int i=0; i<ids.length; i++) ids[i] = states[i].getID();
 	Arrays.sort(ids);

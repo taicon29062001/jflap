@@ -46,7 +46,7 @@ public class FSAConfiguration extends Configuration {
      * @param input the input
      * @param unprocessed the unprocessed input
      */
-    public FSAConfiguration(State state, FSAConfiguration parent,
+    public FSAConfiguration(StateAutomaton state, FSAConfiguration parent,
 			    String input, String unprocessed) {
 	super(state, parent);
 	myInput = input;
@@ -94,7 +94,7 @@ public class FSAConfiguration extends Configuration {
      */
     public boolean isAccept() {
 	if (getUnprocessedInput().length() != 0) return false;
-	State s = getCurrentState();
+	StateAutomaton s = getCurrentState();
 	Automaton a = s.getAutomaton();
 	return a.isFinalState(s);
     }

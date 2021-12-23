@@ -26,8 +26,8 @@
  
 package automata.turing;
 
-import automata.NondeterminismDetector;
 import automata.Transition;
+import gui.deterministic.NondeterminismDetector;
 
 /**
  * The TTM nondeterminism detector object can be used to find all the

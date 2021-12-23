@@ -27,7 +27,7 @@
 package file.xml;
 
 import automata.Automaton;
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import automata.graph.*;
 import file.ParseException;
@@ -135,7 +135,7 @@ public abstract class AutomatonTransducer extends AbstractTransducer {
 	    }
 	    p.setLocation(x,y);
 	    // Create the state.
-	    State state = automaton.createState(p);
+	    StateAutomaton state = automaton.createState(p);
 	    if (hasLocation && locatedStates != null)
 		locatedStates.add(state);
 	    i2s.put(id, state);
@@ -163,7 +163,7 @@ public abstract class AutomatonTransducer extends AbstractTransducer {
      * @see #readTransitions
      */
     protected abstract Transition createTransition
-	(State from, State to, Node node, Map e2t);
+	(StateAutomaton from, StateAutomaton to, Node node, Map e2t);
 
     /**
      * Reads the transitions from the document and adds them to the
@@ -191,7 +191,7 @@ public abstract class AutomatonTransducer extends AbstractTransducer {
 	    if (fromName == null)
 		throw new DataException("A transition has no from state!");
 	    Object id = parseID(fromName);
-	    State from = (State) id2state.get(id);
+	    StateAutomaton from = (StateAutomaton) id2state.get(id);
 	    if (from == null)
 		throw new DataException("A transition is defined from "+
 				   "non-existent state "+id+"!");
@@ -200,7 +200,7 @@ public abstract class AutomatonTransducer extends AbstractTransducer {
 	    if (toName == null)
 		throw new DataException("A transition has no to state!");
 	    id = parseID(toName);
-	    State to = (State) id2state.get(id);
+	    StateAutomaton to = (StateAutomaton) id2state.get(id);
 	    if (to == null)
 		throw new DataException("A transition is defined to "+
 					"non-existent state "+id+"!");
@@ -277,7 +277,7 @@ public abstract class AutomatonTransducer extends AbstractTransducer {
      * @see #createTransitionElement
      * @see #toDOM
      */
-    protected Element createStateElement(Document document, State state) {
+    protected Element createStateElement(Document document, StateAutomaton state) {
 	// Start the creation of the state tag.
 	Element se = createElement(document, STATE_NAME, null, null);
 	se.setAttribute(STATE_ID_NAME, ""+state.getID());
@@ -344,7 +344,7 @@ public abstract class AutomatonTransducer extends AbstractTransducer {
 	Document doc = newEmptyDocument();
 	Element se = doc.getDocumentElement();
 	// Add the states as subelements of the structure element.
-	State[] states = automaton.getStates();
+	StateAutomaton[] states = automaton.getStates();
 	if (states.length > 0)
 	    se.appendChild(createComment(doc, COMMENT_STATES));
 	for (int i=0; i<states.length; i++)

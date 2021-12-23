@@ -53,7 +53,7 @@ public class UnreachableStatesDetector {
      * all white.
      * @param states the set of states to create Nodes for.
      */
-    public void initializeNodes(State[] states) {
+    public void initializeNodes(StateAutomaton[] states) {
 	myNodes = new Node[states.length];
 	/** Color all vertices white. */
 	for(int k = 0; k < states.length; k++) {
@@ -70,9 +70,9 @@ public class UnreachableStatesDetector {
      * @return all states in the automaton that are unreachable from
      * the initial state.
      */
-    public State[] getUnreachableStates() {
+    public StateAutomaton[] getUnreachableStates() {
 	ArrayList list = new ArrayList();
-	State[] states = myAutomaton.getStates();
+	StateAutomaton[] states = myAutomaton.getStates();
 	/** Create nodes for DFS. */
 	initializeNodes(states);
 	
@@ -89,7 +89,7 @@ public class UnreachableStatesDetector {
 		list.add(myNodes[k].getState());
 	    }
 	}
-	return (State[]) list.toArray(new State[0]);
+	return (StateAutomaton[]) list.toArray(new StateAutomaton[0]);
     }
 
     /**
@@ -97,7 +97,7 @@ public class UnreachableStatesDetector {
      * @param state the state
      * @return Node object that contains <CODE>state</CODE>.
      */
-    public Node getNodeForState(State state) {
+    public Node getNodeForState(StateAutomaton state) {
 	/** Search through all nodes for state. */
 	for(int k = 0; k < myNodes.length; k++) {
 	    Node node = myNodes[k];
@@ -121,7 +121,7 @@ public class UnreachableStatesDetector {
 	    myAutomaton.getTransitionsFromState(node.getState());
 	for(int k = 0; k < transitions.length; k++) {
 	    Transition transition = transitions[k];
-	    State toState = transition.getToState();
+	    StateAutomaton toState = transition.getToState();
 	    Node v = getNodeForState(toState);
 	    if(v.isWhite()) {
 		visit(v);

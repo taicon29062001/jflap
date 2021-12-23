@@ -56,7 +56,7 @@ public class DisjointSetsDetector {
     private void accountForStates(HashSet states) {
 	Iterator it = states.iterator();
 	while(it.hasNext()) {
-	    State state = (State) it.next();
+	    StateAutomaton state = (StateAutomaton) it.next();
 	    if(!STATES_IN_A_SET.contains(state))
 		STATES_IN_A_SET.add(state);
 	}
@@ -76,7 +76,7 @@ public class DisjointSetsDetector {
      * a transition from <CODE>s2</CODE> to <CODE>s1</CODE>.
      */
     private boolean areDirectlyConnected
-	(State s1, State s2, Automaton automaton) {
+	(StateAutomaton s1, StateAutomaton s2, Automaton automaton) {
 	if(s1==s2) return false;
 	if(automaton.getTransitionsFromStateToState(s1,s2).length == 0 &&
 	   automaton.getTransitionsFromStateToState(s2,s1).length == 0)
@@ -93,9 +93,9 @@ public class DisjointSetsDetector {
      * connected directly to <CODE>state</CODE>.
      */
     private ArrayList getStatesConnectedToState
-	(State state, Automaton automaton) {
+	(StateAutomaton state, Automaton automaton) {
 	ArrayList list = new ArrayList();
-	State[] states = automaton.getStates();
+	StateAutomaton[] states = automaton.getStates();
 	for(int k = 0; k < states.length; k++) {
 	    if(areDirectlyConnected(state,states[k],automaton)) {
 		list.add(states[k]);
@@ -115,7 +115,7 @@ public class DisjointSetsDetector {
 				     ArrayList list) {
 	Iterator it = toAdd.iterator();
 	while(it.hasNext()) {
-	    State state = (State) it.next();
+	    StateAutomaton state = (StateAutomaton) it.next();
 	    if(!set.contains(state)) list.add(state);
 	}
     }
@@ -130,7 +130,7 @@ public class DisjointSetsDetector {
      * including <CODE>state</CODE>, that are connected to
      * <CODE>state</CODE>.
      */
-    public HashSet getSetIncludingState(State state, Automaton automaton) {
+    public HashSet getSetIncludingState(StateAutomaton state, Automaton automaton) {
 	HashSet set = new HashSet();
 	ArrayList list = new ArrayList();
 	list.add(state);
@@ -138,7 +138,7 @@ public class DisjointSetsDetector {
 	    ArrayList toAdd = new ArrayList();
 	    Iterator it = list.iterator();
 	    while(it.hasNext()) {
-		State s = (State) it.next();
+		StateAutomaton s = (StateAutomaton) it.next();
 		toAdd.addAll(getStatesConnectedToState(s,automaton));
 		set.add(s);
 		it.remove();
@@ -154,7 +154,7 @@ public class DisjointSetsDetector {
      * the determination of disjoint sets
      * @param state the state
      */
-    private boolean isAccountedFor(State state) {
+    private boolean isAccountedFor(StateAutomaton state) {
 	if(STATES_IN_A_SET.contains(state)) return true;
 	return false;
     }
@@ -178,8 +178,8 @@ public class DisjointSetsDetector {
      * @return a state in <CODE>automaton</CODE> that has not yet
      * been accounted for in the determination of disjoint sets.
      */
-    public State getUnaccountedForState(Automaton automaton) {
-	State[] states = automaton.getStates();
+    public StateAutomaton getUnaccountedForState(Automaton automaton) {
+	StateAutomaton[] states = automaton.getStates();
 	for(int k = 0; k < states.length; k++) {
 	    if(!isAccountedFor(states[k])) return states[k];
 	}
@@ -198,7 +198,7 @@ public class DisjointSetsDetector {
 	STATES_IN_A_SET = new ArrayList();
 
 	while(!accountedForAllStates(automaton)) {
-	    State state = getUnaccountedForState(automaton);
+	    StateAutomaton state = getUnaccountedForState(automaton);
 	    HashSet set = getSetIncludingState(state,automaton);
 	    accountForStates(set);
 	    list.add(set);

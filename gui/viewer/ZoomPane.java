@@ -26,7 +26,7 @@
  
 package gui.viewer;
 
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import java.awt.Rectangle;
 import javax.swing.event.ChangeEvent;
@@ -64,7 +64,7 @@ public class ZoomPane extends AutomatonPane {
      */
     protected Rectangle getAutomatonBounds() {
 	SelectionDrawer d = (SelectionDrawer) drawer;
-	State[] s = d.getSelected();
+	StateAutomaton[] s = d.getSelected();
 	Transition[] t = d.getSelectedTransitions();
 	// What if nothing is selected?
 	if (s.length + t.length == 0) return super.getAutomatonBounds();

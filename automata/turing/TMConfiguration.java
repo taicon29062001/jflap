@@ -45,7 +45,7 @@ public class TMConfiguration extends Configuration {
      * @param parent the immediate ancestor for this configuration
      * @param tapes the read/write tapes
      */
-    public TMConfiguration(State state, TMConfiguration parent, Tape[] tapes) {
+    public TMConfiguration(StateAutomaton state, TMConfiguration parent, Tape[] tapes) {
 	super(state, parent);
 	this.myTapes = tapes;
     }
@@ -84,7 +84,7 @@ public class TMConfiguration extends Configuration {
      * <CODE>false</CODE> otherwise
      */
     public boolean isAccept() {
-	State s = getCurrentState();
+	StateAutomaton s = getCurrentState();
 	return s.getAutomaton().isFinalState(s);
     }
 

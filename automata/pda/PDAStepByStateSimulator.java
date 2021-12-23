@@ -78,7 +78,7 @@ public class PDAStepByStateSimulator extends AutomatonSimulator {
 	/** get all information from configuration. */
 	String unprocessedInput = configuration.getUnprocessedInput();
 	String totalInput = configuration.getInput();
-	State currentState = configuration.getCurrentState();
+	StateAutomaton currentState = configuration.getCurrentState();
 	Transition[] transitions = 
 	    myAutomaton.getTransitionsFromState(currentState);
 	for (int k = 0; k < transitions.length; k++) {
@@ -96,7 +96,7 @@ public class PDAStepByStateSimulator extends AutomatonSimulator {
 		if(inputToRead.length() < unprocessedInput.length()) {
 		    input = unprocessedInput.substring(inputToRead.length());
 		}
-		State toState = transition.getToState();
+		StateAutomaton toState = transition.getToState();
 		stack.push(transition.getStringToPush());
 		PDAConfiguration configurationToAdd = 
 		    new PDAConfiguration(toState, configuration, totalInput,
@@ -134,7 +134,7 @@ public class PDAStepByStateSimulator extends AutomatonSimulator {
 	while (it.hasNext()) {
 	    PDAConfiguration configuration = (PDAConfiguration) it.next();
 	    if(myAcceptance == FINAL_STATE) {
-		State currentState = configuration.getCurrentState();
+		StateAutomaton currentState = configuration.getCurrentState();
 		if(configuration.getUnprocessedInput() == "" &&
 		   myAutomaton.isFinalState(currentState)) {
 		    return true;

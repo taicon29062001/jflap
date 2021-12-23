@@ -27,7 +27,7 @@
 package file.xml;
 
 import automata.Automaton;
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import automata.fsa.*;
 import java.util.*;
@@ -61,7 +61,7 @@ public class FSATransducer extends AutomatonTransducer {
      * @return the new transition
      */
     protected Transition createTransition
-	(State from, State to, Node node, Map e2t) {
+	(StateAutomaton from, StateAutomaton to, Node node, Map e2t) {
 	String s = (String) e2t.get(TRANSITION_READ_NAME);
 	if (s == null) s = ""; // Allow lambda transition.
 	return new FSATransition(from, to, s);

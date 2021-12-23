@@ -58,7 +58,7 @@ public abstract class TableTransitionCreator extends TransitionCreator {
      * @param from the from state for the new transition
      * @param to the to state for the new transition
      */
-    protected abstract Transition initTransition(State from, State to);
+    protected abstract Transition initTransition(StateAutomaton from, StateAutomaton to);
 
     /**
      * Instantiates a new table model based on the given transition.
@@ -160,7 +160,7 @@ public abstract class TableTransitionCreator extends TransitionCreator {
      * @param from the from state
      * @param to the to state
      */
-    public Transition createTransition(State from, State to) {
+    public Transition createTransition(StateAutomaton from, StateAutomaton to) {
 	Transition t = initTransition(from, to);
 	editTransition(t, null);
 	return null;
@@ -179,7 +179,7 @@ public abstract class TableTransitionCreator extends TransitionCreator {
 	this.transition = transition;
 	isNew = point == null;
 	if (isNew) {
-	    State from=transition.getFromState(), to=transition.getToState();
+	    StateAutomaton from=transition.getFromState(), to=transition.getToState();
 	    point = new Point((from.getPoint().x + to.getPoint().x)/2,
 			      (from.getPoint().y + to.getPoint().y)/2);
 	}

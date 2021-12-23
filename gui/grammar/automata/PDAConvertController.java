@@ -27,7 +27,7 @@
 package gui.grammar.automata;
 
 import automata.Automaton;
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import automata.pda.PDAToCFGConverter;
 import automata.pda.PushdownAutomaton;
@@ -71,7 +71,7 @@ public class PDAConvertController extends ConvertController {
      * @return an array containing the productions that correspond to
      * a particular state
      */
-    protected Production[] getProductions(State state) {
+    protected Production[] getProductions(StateAutomaton state) {
 	return new Production[0];
     }
 

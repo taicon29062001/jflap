@@ -70,7 +70,7 @@ public class MinimizePane extends JPanel {
 	TreeNode[] groups = Trees.children((MinimizeTreeNode)tree.getRoot());
 	for (int i=0; i<groups.length; i++) {
 	    MinimizeTreeNode group = (MinimizeTreeNode) groups[i];
-	    State[] states = (State[]) group.getUserObject();
+	    StateAutomaton[] states = (StateAutomaton[]) group.getUserObject();
 	    if (states.length == 0) continue;
 	    if (dfa.isFinalState(states[0]))
 		nodeDrawer.setLabel(group, "Final");
@@ -209,7 +209,7 @@ public class MinimizePane extends JPanel {
 	 */
 	public void mouseClicked(java.awt.event.MouseEvent event) {
 	    super.mouseClicked(event);
-	    State s = automatonDrawer.stateAtPoint(event.getPoint());
+	    StateAutomaton s = automatonDrawer.stateAtPoint(event.getPoint());
 	    // If we're still building the tree...
 	    if (builderController == null)
 		controller.stateDown(s, event);

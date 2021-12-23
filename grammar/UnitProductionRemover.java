@@ -155,7 +155,7 @@ public class UnitProductionRemover {
 	    Point point = new Point
 		(200 + (int) (180.0*Math.cos(theta)),
 		 200 + (int) (180.0*Math.sin(theta)));
-	    State state = graph.createState(point);
+	    StateAutomaton state = graph.createState(point);
 	    state.setName(variables[k]);
 	}
     }
@@ -170,9 +170,9 @@ public class UnitProductionRemover {
      * <CODE>variable</CODE> (i.e. the state whose label is
      * <CODE>variable</CODE>).
      */
-    public State getStateForVariable(String variable, 
+    public StateAutomaton getStateForVariable(String variable, 
 				     VariableDependencyGraph graph) {
-	State[] states = graph.getStates();
+	StateAutomaton[] states = graph.getStates();
 	for(int k = 0; k < states.length; k++) {
 	    if(states[k].getName().equals(variable)) return states[k];
 	}
@@ -195,8 +195,8 @@ public class UnitProductionRemover {
 	if(!pc.isUnitProduction(production)) return null;
 	String lhs = production.getLHS();
 	String rhs = production.getRHS();
-	State from = getStateForVariable(lhs, graph);
-	State to = getStateForVariable(rhs, graph);
+	StateAutomaton from = getStateForVariable(lhs, graph);
+	StateAutomaton to = getStateForVariable(rhs, graph);
 	return new VDGTransition(from,to);
     }
 
@@ -229,11 +229,11 @@ public class UnitProductionRemover {
      */
     public boolean isDependentOn
 	(String variable1, String variable2, VariableDependencyGraph graph) {
-	State v1 = getStateForVariable(variable1, graph);
-	State v2 = getStateForVariable(variable2, graph);
+	StateAutomaton v1 = getStateForVariable(variable1, graph);
+	StateAutomaton v2 = getStateForVariable(variable2, graph);
 	graph.setInitialState(v1);
 	UnreachableStatesDetector usd = new UnreachableStatesDetector(graph);
-	State[] states = usd.getUnreachableStates();
+	StateAutomaton[] states = usd.getUnreachableStates();
 	graph.setInitialState(null);
 	for(int k = 0; k < states.length; k++) {
 	    if(v2 == states[k]) return false;

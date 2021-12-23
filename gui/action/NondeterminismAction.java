@@ -27,9 +27,9 @@
 package gui.action;
 
 import automata.Automaton;
-import automata.NondeterminismDetector;
-import automata.NondeterminismDetectorFactory;
-import automata.State;
+import automata.StateAutomaton;
+import gui.deterministic.NondeterminismDetector;
+import gui.deterministic.NondeterminismDetectorFactory;
 import gui.editor.ArrowDisplayOnlyTool;
 import gui.environment.Environment;
 import gui.environment.tag.CriticalTag;
@@ -68,7 +68,7 @@ public class NondeterminismAction extends AutomatonAction {
 	SelectionDrawer drawer = new SelectionDrawer(automaton);
 	NondeterminismDetector d =
 	    NondeterminismDetectorFactory.getDetector(automaton);
-	State[] nd = d.getNondeterministicStates(automaton);
+	StateAutomaton[] nd = d.getNondeterministicStates(automaton);
 	for (int i=0; i<nd.length; i++)
 	    drawer.addSelected(nd[i]);
 	AutomatonPane ap = new AutomatonPane(drawer);

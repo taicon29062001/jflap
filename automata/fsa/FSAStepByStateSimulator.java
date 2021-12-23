@@ -77,7 +77,7 @@ public class FSAStepByStateSimulator extends AutomatonSimulator {
 	/** get all information from configuration. */
 	String unprocessedInput = configuration.getUnprocessedInput();
 	String totalInput = configuration.getInput();
-	State currentState = configuration.getCurrentState();
+	StateAutomaton currentState = configuration.getCurrentState();
 	Transition[] transitions = 
 	    myAutomaton.getTransitionsFromState(currentState);
 	for (int k = 0; k < transitions.length; k++) {
@@ -89,7 +89,7 @@ public class FSAStepByStateSimulator extends AutomatonSimulator {
 		if(transLabel.length() < unprocessedInput.length()) {
 		    input = unprocessedInput.substring(transLabel.length()); 
 		}
-		State toState = transition.getToState();
+		StateAutomaton toState = transition.getToState();
 		FSAConfiguration configurationToAdd = 
 		    new FSAConfiguration(toState, configuration, totalInput,
 					 input);
@@ -111,7 +111,7 @@ public class FSAStepByStateSimulator extends AutomatonSimulator {
 	Iterator it = myConfigurations.iterator();
 	while (it.hasNext()) {
 	    FSAConfiguration configuration = (FSAConfiguration) it.next();
-	    State currentState = configuration.getCurrentState();
+	    StateAutomaton currentState = configuration.getCurrentState();
 	    if(configuration.getUnprocessedInput() == "" &&
 	       myAutomaton.isFinalState(currentState)) {
 		return true;

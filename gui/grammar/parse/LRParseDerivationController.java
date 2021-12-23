@@ -136,7 +136,7 @@ public class LRParseDerivationController extends LLParseDerivationController {
 	    while (it.hasNext()) {
 		Map.Entry entry = (Map.Entry) it.next();
 		Set items = (Set) entry.getKey();
-		State state = (State) entry.getValue();
+		StateAutomaton state = (StateAutomaton) entry.getValue();
 		Transition[] t = dfa.getTransitionsFromState(state);
 		String[] s = Operations.getCanGoto(items);
 		if (s.length != t.length) {
@@ -159,7 +159,7 @@ public class LRParseDerivationController extends LLParseDerivationController {
 	    while (it.hasNext()) {
 		Map.Entry entry = (Map.Entry) it.next();
 		Set items = (Set) entry.getKey();
-		State state = (State) entry.getValue();
+		StateAutomaton state = (StateAutomaton) entry.getValue();
 		boolean finalState = isFinalSet(items);
 		if (finalState ^ dfa.isFinalState(state)) {
 		    drawer.addSelected(state);
@@ -291,7 +291,7 @@ public class LRParseDerivationController extends LLParseDerivationController {
 	// At this point, at least the initial state should exist.
 	StatePlacer placer = new StatePlacer();
 	Set handledStates = new HashSet();
-	State[] states = dfa.getStates();
+	StateAutomaton[] states = dfa.getStates();
 	Set originalStates = new HashSet(Arrays.asList(states));
 	while (states.length != handledStates.size()) {
 	    for (int i=0; i<states.length; i++) {
@@ -314,7 +314,7 @@ public class LRParseDerivationController extends LLParseDerivationController {
 		    String symbol = (String) it.next();
 		    Set gotoSet = Operations.goTo
 			(augmented, itemSet, symbol);
-		    State second = (State) itemsToState.get(gotoSet);
+		    StateAutomaton second = (StateAutomaton) itemsToState.get(gotoSet);
 		    if (second == null) {
 			Point p = placer.getPointForState(dfa);
 			second = dfa.createState(p);
@@ -360,7 +360,7 @@ public class LRParseDerivationController extends LLParseDerivationController {
      * evaluates as; this may be <CODE>null</CODE> if the user has yet
      * to input this set
      */
-    public void gotoGroup(State first, Point point, State second) {
+    public void gotoGroup(StateAutomaton first, Point point, StateAutomaton second) {
 	String symbol = (String) JOptionPane.showInputDialog
 	    (firstFollow, "What is the grammar symbol for the transition?");
 	if (symbol == null) return;
@@ -389,7 +389,7 @@ public class LRParseDerivationController extends LLParseDerivationController {
 	    if (items == null) return;
 	    Set itemSet = new HashSet();
 	    for (int i=0; i<items.length; i++) itemSet.add(items[i]);
-	    second = (State) itemsToState.get(itemSet);
+	    second = (StateAutomaton) itemsToState.get(itemSet);
 	    if (second == null) {
 		second = dfa.createState(point);
 		assignItemsToState(items, second);
@@ -443,7 +443,7 @@ public class LRParseDerivationController extends LLParseDerivationController {
 		    (firstFollow, "The initial set MUST be created now.",
 		     "Initial Set Needed", JOptionPane.ERROR_MESSAGE);
 	    }
-	    State initialState = dfa.createState(new Point(60,40));
+	    StateAutomaton initialState = dfa.createState(new Point(60,40));
 	    dfa.setInitialState(initialState);
 	    assignItemsToState(initials, initialState);
 	    directions.setText("Build the DFA.");
@@ -490,7 +490,7 @@ public class LRParseDerivationController extends LLParseDerivationController {
      * @param items the items to assign to a state
      * @param state the state to assign the items to
      */
-    private void assignItemsToState(Production[] items, State state) {
+    private void assignItemsToState(Production[] items, StateAutomaton state) {
 	Set itemSet = new HashSet();
 	StringBuffer sb = new StringBuffer();
 	for (int i=0; i<items.length; i++) {

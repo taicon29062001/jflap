@@ -27,7 +27,7 @@
 package file.xml;
 
 import automata.Automaton;
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import automata.pda.*;
 import file.DataException;
@@ -63,7 +63,7 @@ public class PDATransducer extends AutomatonTransducer {
      * @return the new transition
      */
     protected Transition createTransition
-	(State from, State to, Node node, Map e2t) {
+	(StateAutomaton from, StateAutomaton to, Node node, Map e2t) {
 	String read = (String) e2t.get(TRANSITION_READ_NAME);
 	String pop = (String) e2t.get(TRANSITION_POP_NAME);
 	String push = (String) e2t.get(TRANSITION_PUSH_NAME);

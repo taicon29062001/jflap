@@ -76,13 +76,13 @@ public class PDAToCFGConverter {
      * state that is entered if and only if the stack is empty.
      */
     public boolean hasSingleFinalState(Automaton automaton) {
-	State[] finalStates = automaton.getFinalStates();
+	StateAutomaton[] finalStates = automaton.getFinalStates();
 	if(finalStates.length != 1) {
 	    //System.err.println("There is not exactly one final state!");
 	    return false;
 	}
 	
-	State finalState = finalStates[0];
+	StateAutomaton finalState = finalStates[0];
 	Transition[] transitions = automaton.getTransitionsToState(finalState);
 	for(int k = 0; k < transitions.length; k++) {
 	    PDATransition trans = (PDATransition) transitions[k];
@@ -199,13 +199,13 @@ public class PDAToCFGConverter {
      * @return true if <CODE>variable</CODE> is the start symbol.
      */
     public boolean isStartSymbol(String variable, Automaton automaton) {
-	State startState = automaton.getInitialState();
-	State[] finalStates = automaton.getFinalStates();
+	StateAutomaton startState = automaton.getInitialState();
+	StateAutomaton[] finalStates = automaton.getFinalStates();
 	if(finalStates.length > 1) {
 	    //System.err.println("MORE THAN ONE FINAL STATE");
 	    return false;
 	}
-	State finalState = finalStates[0];
+	StateAutomaton finalState = finalStates[0];
 	String startSymbol = LEFT_PAREN.concat(startState.getName().concat(BOTTOM_OF_STACK.concat(finalState.getName().concat(RIGHT_PAREN))));
 	if(variable.equals(startSymbol)) return true;
 	return false;
@@ -232,7 +232,7 @@ public class PDAToCFGConverter {
 	String toPushOne = toPush.substring(0,1);
 	String toPushTwo = toPush.substring(1);
 	
-	State[] states = automaton.getStates();
+	StateAutomaton[] states = automaton.getStates();
 	for(int k = 0; k < states.length; k++) {
 	    String state = states[k].getName();
 	    String lhs = LEFT_PAREN.concat(fromState.concat(toPop.concat(state.concat(RIGHT_PAREN))));

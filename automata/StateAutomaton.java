@@ -40,7 +40,7 @@ import java.util.StringTokenizer;
  * @version 1.0
  */
 
-public class State implements Serializable {
+public class StateAutomaton implements Serializable {
     /**
      * Instantiates a new state.
      * @param id the state id, used for generating
@@ -48,7 +48,7 @@ public class State implements Serializable {
      * in the canvas
      * @param automaton the automaton this belongs to
      */
-    public State(int id, Point point, Automaton automaton) {
+    public StateAutomaton(int id, Point point, Automaton automaton) {
 	this.point = point;
 	this.id = id;
 	this.automaton = automaton;

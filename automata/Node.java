@@ -33,7 +33,7 @@ import automata.*;
  * It stores a State object and a color.  This object is used 
  * to find the unreachable states in an automaton.
  * 
- * @see automata.State
+ * @see automata.StateAutomaton
  *
  * @author Ryan Cavalcante
  */
@@ -52,7 +52,7 @@ public class Node {
      * color.
      * @param state the state contained by the Node object
      */
-    public Node(State state) {
+    public Node(StateAutomaton state) {
 	myState = state;
 	myColor = "";
     }
@@ -63,7 +63,7 @@ public class Node {
      * @param state the state contained by the Node object
      * @param color the color of the node.
      */
-    public Node(State state, String color) {
+    public Node(StateAutomaton state, String color) {
 	myState = state;
 	myColor = color;
     }
@@ -72,7 +72,7 @@ public class Node {
      * Returns the state contained by the Node object.
      * @return the state contained by the Node object.
      */
-    public State getState() {
+    public StateAutomaton getState() {
 	return myState;
     }
 
@@ -144,7 +144,7 @@ public class Node {
     /** Color of node. */
     protected String myColor;
     /** State of node. */
-    protected State myState;
+    protected StateAutomaton myState;
     /** String for white. */
     protected static final String WHITE = "white";
     /** String for grey. */

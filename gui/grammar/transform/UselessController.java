@@ -87,7 +87,7 @@ class UselessController {
 		("For every production, connect start and end.");
 	    // Make the VDG.
 	    remover.initializeVariableDependencyGraph(vdg, grammar);
-	    State s[] = vdg.getStates();
+	    StateAutomaton s[] = vdg.getStates();
 	    for (int i=0; i<s.length; i++)
 		if (terminalVariables.contains(s[i].getName()))
 		    vdg.addFinalState(s[i]);

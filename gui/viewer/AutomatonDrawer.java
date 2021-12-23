@@ -27,7 +27,7 @@
 package gui.viewer;
 
 import automata.Automaton;
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import automata.event.*;
 import java.awt.*;
@@ -80,7 +80,7 @@ public class AutomatonDrawer {
 	drawTransitions(g);
 
 	// Draw every state.
-	State[] states = automaton.getStates();
+	StateAutomaton[] states = automaton.getStates();
 	for (int i=0; i<states.length; i++) {
 	    drawState(g, states[i]);
 	}
@@ -93,7 +93,7 @@ public class AutomatonDrawer {
      * @return the rectangle that the state needs to be in to
      * completely enclose itself
      */
-    public Rectangle getBounds(State state) {
+    public Rectangle getBounds(StateAutomaton state) {
 	int radius = statedrawer.getRadius();
 	Point p = state.getPoint();
 	int yAdd = state.getLabels().length * 15;
@@ -128,7 +128,7 @@ public class AutomatonDrawer {
     public Rectangle getBounds() {
 	if (validBounds) return cachedBounds;
 	if (!valid) refreshArrowMap();
-	State[] states = getAutomaton().getStates();
+	StateAutomaton[] states = getAutomaton().getStates();
 	if (states.length == 0) return null;
 	Rectangle rect = getBounds(states[0]);
 	for (int i=1; i<states.length; i++)
@@ -148,7 +148,7 @@ public class AutomatonDrawer {
      * @param g the graphics object to draw upon
      * @param state the state to draw
      */
-    protected void drawState(Graphics g, State state) {
+    protected void drawState(Graphics g, StateAutomaton state) {
 	statedrawer.drawState(g, getAutomaton(), state);
 	if (drawLabels) {
 	    statedrawer.drawStateLabel(g, state, state.getPoint(),
@@ -174,7 +174,7 @@ public class AutomatonDrawer {
      * Refreshes the <CODE>arrowToTransitionMap</CODE> structure.
      */
     private void refreshArrowMap() {
-	State[] states = automaton.getStates();
+	StateAutomaton[] states = automaton.getStates();
 	arrowToTransitionMap.clear(); // Remove old entries.
 	transitionToArrowMap.clear(); // Remove old entries.
 
@@ -244,7 +244,7 @@ public class AutomatonDrawer {
      * @return as described, the point of intersection on
      * <CODE>state1</CODE>
      */
-    protected Point getCenterIntersection(State state1, State state2) {
+    protected Point getCenterIntersection(StateAutomaton state1, StateAutomaton state2) {
 	return pointOnState(state1, angle(state1, state2));
     }
 
@@ -254,7 +254,7 @@ public class AutomatonDrawer {
      * @param state2 the second state
      * @return the angle on state1 of the point closest to state2
      */
-    private double angle(State state1, State state2) {
+    private double angle(StateAutomaton state1, StateAutomaton state2) {
 	Point p1 = state1.getPoint();
 	Point p2 = state2.getPoint();
 	double x = (double) (p2.x - p1.x);
@@ -269,7 +269,7 @@ public class AutomatonDrawer {
      * @param angle the angle on the state
      * @return the point on the outside of the state with this angle
      */
-    private Point pointOnState(State state, double angle) {
+    private Point pointOnState(StateAutomaton state, double angle) {
 	Point point = new Point(state.getPoint());
 	double x = Math.cos(angle) * (double) statedrawer.STATE_RADIUS;
 	double y = Math.sin(angle) * (double) statedrawer.STATE_RADIUS;
@@ -301,8 +301,8 @@ public class AutomatonDrawer {
      * @return a <CODE>State</CODE> object at this particular point,
      * or <CODE>null</CODE> if no state is at this point
      */
-    public State stateAtPoint(Point point) {
-	State[] states = getAutomaton().getStates();
+    public StateAutomaton stateAtPoint(Point point) {
+	StateAutomaton[] states = getAutomaton().getStates();
 	// Work backwards, since we want to select the "top" state,
 	// and states are drawn forwards so later is on top.
 	for (int i=states.length-1; i>=0; i--)

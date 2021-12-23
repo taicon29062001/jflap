@@ -27,7 +27,7 @@
 package gui.viewer;
 
 import automata.Automaton;
-import automata.State;
+import automata.StateAutomaton;
 import automata.event.*;
 import gui.JMultiLineToolTip;
 import gui.editor.ArrowDisplayOnlyTool;
@@ -83,7 +83,7 @@ public class AutomatonPane extends JPanel implements Scrollable {
      */
     public String getToolTipText(MouseEvent event) {
 	if (!drawer.doesDrawStateLabels()) {
-	    State s = drawer.stateAtPoint(event.getPoint());
+	    StateAutomaton s = drawer.stateAtPoint(event.getPoint());
 	    if (s == null) return null;
 	    return s.getLabel();
 	}
@@ -378,7 +378,7 @@ public class AutomatonPane extends JPanel implements Scrollable {
 	Rectangle automatonBounds = new Rectangle(drawer.getBounds());
 	automatonBounds.grow(padding, padding);
 	viewBounds.x = viewBounds.y = 0; // Just pretend...
-	State[] states = drawer.getAutomaton().getStates();
+	StateAutomaton[] states = drawer.getAutomaton().getStates();
 	
 	// Translate and scale each point.
 	for (int i=0; i<states.length; i++) {

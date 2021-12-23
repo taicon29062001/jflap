@@ -27,7 +27,7 @@
 package gui.editor;
 
 import automata.Automaton;
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import gui.viewer.AutomatonPane;
 import java.awt.Point;
@@ -63,7 +63,7 @@ public abstract class TransitionCreator {
      * @param from the state the transition will go from
      * @param to the state the transition will go to
      */
-    public abstract Transition createTransition(State from, State to);
+    public abstract Transition createTransition(StateAutomaton from, StateAutomaton to);
 
     /**
      * Edits a given transition.  Ideally this should use the same

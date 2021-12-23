@@ -26,7 +26,7 @@
  
 package gui.editor;
 
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import automata.vdg.VDGTransition;
 import gui.viewer.AutomatonPane;
@@ -52,7 +52,7 @@ public class VDGTransitionCreator extends TransitionCreator {
      * Creates a transition with user interaction and returns it.
      * @return returns the variable dependency transition
      */
-    public Transition createTransition(State from, State to) {
+    public Transition createTransition(StateAutomaton from, StateAutomaton to) {
 	VDGTransition t = new VDGTransition(from, to);
 	getParent().getDrawer().getAutomaton().addTransition(t);
 	return null;

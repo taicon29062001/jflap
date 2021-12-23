@@ -72,14 +72,14 @@ public class ConvertToAutomatonPane extends JPanel {
 	SelectionDrawer automatonDrawer = new SelectionDrawer(automaton);
 
 	// Do the initialization of the automaton.
-	State initialState = automaton.createState(new Point(60,40));
-	State finalState = automaton.createState(new Point(450,250));
+	StateAutomaton initialState = automaton.createState(new Point(60,40));
+	StateAutomaton finalState = automaton.createState(new Point(450,250));
 	automaton.setInitialState(initialState);
 	automaton.addFinalState(finalState);
 	FSATransition initialTransition =
 	    new FSATransition
 	    (initialState, finalState,
-	     Discretizer.delambda(environment.getExpression()
+	     Discretizer.lambdaString(environment.getExpression()
 				  .asString().replace('!', '\u03BB')));
 	automaton.addTransition(initialTransition);
 	

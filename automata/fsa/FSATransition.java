@@ -27,7 +27,7 @@
 package automata.fsa;
 
 import automata.Transition;
-import automata.State;
+import automata.StateAutomaton;
 
 /**
  * An <CODE>FSATransition</CODE> is a <CODE>Transition</CODE> object
@@ -48,7 +48,7 @@ public class FSATransition extends Transition {
      * be that string that the current string in the machine should
      * satisfy before moving on to the next state
      */
-    public FSATransition(State from, State to, String label) {
+    public FSATransition(StateAutomaton from, StateAutomaton to, String label) {
 	super(from, to);
 	setLabel(label);
     }
@@ -59,7 +59,7 @@ public class FSATransition extends Transition {
      * @param to the new to state
      * @return a copy of this transition with the new states
      */
-    public Transition copy(State from, State to) {
+    public Transition copy(StateAutomaton from, StateAutomaton to) {
 	return new FSATransition(from, to, myLabel);
     }
 

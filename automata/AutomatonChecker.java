@@ -28,6 +28,7 @@ package automata;
 
 import automata.*;
 import automata.fsa.*;
+import gui.deterministic.NondeterminismDetector;
 
 /**
  * The Automaton checker can be used to determine certain properties
@@ -56,7 +57,7 @@ public class AutomatonChecker {
 	    return false;
 	}
 	NondeterminismDetector nd = new FSANondeterminismDetector();
-	State[] nondeterministicStates = 
+	StateAutomaton[] nondeterministicStates = 
 	    nd.getNondeterministicStates(automaton);
 	return nondeterministicStates.length > 0;
     }

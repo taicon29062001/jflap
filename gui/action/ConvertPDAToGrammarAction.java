@@ -27,7 +27,7 @@
 package gui.action;
 
 import automata.Automaton;
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import automata.pda.PDAToCFGConverter;
 import automata.pda.PDATransition;
@@ -82,7 +82,7 @@ public class ConvertPDAToGrammarAction
 	messagePanel.add(tempPanel, BorderLayout.CENTER);
 	messagePanel.add(messageLabel, BorderLayout.SOUTH);
 	// Check the final states.
-	State[] finalStates = getAutomaton().getFinalStates();
+	StateAutomaton[] finalStates = getAutomaton().getFinalStates();
 	if (finalStates.length != 1) {
 	    JOptionPane.showMessageDialog
 		(frame, "There must be exactly one final state!",

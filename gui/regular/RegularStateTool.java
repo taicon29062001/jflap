@@ -26,7 +26,7 @@
  
 package gui.regular;
 
-import automata.State;
+import automata.StateAutomaton;
 import gui.editor.StateTool;
 import gui.viewer.AutomatonDrawer;
 import gui.viewer.AutomatonPane;
@@ -78,7 +78,7 @@ public class RegularStateTool extends StateTool {
     }
 
     /** The state that was created. */
-    private State state = null;
+    private StateAutomaton state = null;
     /** The controller object. */
     private FSAToREController controller;
 }

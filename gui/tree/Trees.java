@@ -53,9 +53,9 @@ public class Trees {
 	TreeNode[] children = new TreeNode[node.getChildCount()];
 	if (!node.isLeaf()) {
 	    int i = 0;
-	    Enumeration enum = node.children();
+	    Enumeration enume = node.children();
 	    while (i < children.length)
-		children[i++] = (TreeNode) enum.nextElement();
+		children[i++] = (TreeNode) enume.nextElement();
 	}
 	return children;
     }

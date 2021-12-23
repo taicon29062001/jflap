@@ -45,8 +45,8 @@ public class PDAStepWithClosureSimulator extends PDAStepByStateSimulator {
      */
     public Configuration[] getInitialConfigurations(String input) {
 	/** The stack should contain the bottom of stack marker. */
-	State init = myAutomaton.getInitialState();
-	State[] closure = ClosureTaker.getClosure(init, myAutomaton);
+	StateAutomaton init = myAutomaton.getInitialState();
+	StateAutomaton[] closure = ClosureTaker.getClosure(init, myAutomaton);
 	Configuration[] configs = new Configuration[closure.length];
 	for(int k = 0; k < closure.length; k++) {
 	    CharacterStack stack = new CharacterStack();
@@ -69,7 +69,7 @@ public class PDAStepWithClosureSimulator extends PDAStepByStateSimulator {
 	/** get all information from configuration. */
 	String unprocessedInput = configuration.getUnprocessedInput();
 	String totalInput = configuration.getInput();
-	State currentState = configuration.getCurrentState();
+	StateAutomaton currentState = configuration.getCurrentState();
 	Transition[] transitions = 
 	    myAutomaton.getTransitionsFromState(currentState);
 	for (int k = 0; k < transitions.length; k++) {
@@ -87,9 +87,9 @@ public class PDAStepWithClosureSimulator extends PDAStepByStateSimulator {
 		if(inputToRead.length() < unprocessedInput.length()) {
 		    input = unprocessedInput.substring(inputToRead.length());
 		}
-		State toState = transition.getToState();
+		StateAutomaton toState = transition.getToState();
 		stack.push(transition.getStringToPush());
-		State[] closure =
+		StateAutomaton[] closure =
 		    ClosureTaker.getClosure(toState,myAutomaton);
 		for(int i = 0; i < closure.length; i++) {
 		    CharacterStack cstack = new CharacterStack(stack);

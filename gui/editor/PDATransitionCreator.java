@@ -26,7 +26,7 @@
  
 package gui.editor;
 
-import automata.State;
+import automata.StateAutomaton;
 import automata.Transition;
 import automata.pda.PDATransition;
 import gui.viewer.AutomatonPane;
@@ -57,7 +57,7 @@ public class PDATransitionCreator extends TableTransitionCreator {
      * @param from the from state
      * @param to to too state
      */
-    protected Transition initTransition(State from, State to) {
+    protected Transition initTransition(StateAutomaton from, StateAutomaton to) {
 	return new PDATransition(from, to, "", "", "");
     }
 

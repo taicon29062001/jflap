@@ -65,7 +65,7 @@ class MinimizeController {
      * @param state the state that was under the mouse
      * @param event the corresponding mouse event
      */
-    public void stateDown(State state, MouseEvent event) {
+    public void stateDown(StateAutomaton state, MouseEvent event) {
 	if (state == null) return;
 	TreeNode[] selected = treeDrawer.getSelected();
 	if (selected.length != 1) return;
@@ -99,7 +99,7 @@ class MinimizeController {
 	TreeNode[] selected = treeDrawer.getSelected();
 	ControlPanel cp = view.controlPanel;
 	// We can only proceed if all has been finished.
-	State[] group = minimizer.getDistinguishableGroup
+	StateAutomaton[] group = minimizer.getDistinguishableGroup
 	    (getAutomaton(), getTree());
 	boolean done = expanding == null && group == null;
 	if (done) {
@@ -271,7 +271,7 @@ class MinimizeController {
      * @param node the node in question
      * @param state the state to add or remove
      */
-    public void toggleState(MinimizeTreeNode node, State state) {
+    public void toggleState(MinimizeTreeNode node, StateAutomaton state) {
 	if (!canModifyChild((MinimizeTreeNode)node.getParent())) return;
 
 	try {
@@ -305,11 +305,11 @@ class MinimizeController {
 	}
 
 	// Add/remove the state to/from the list of states.
-	State[] states = node.getStates();
+	StateAutomaton[] states = node.getStates();
 	java.util.List list = new LinkedList(Arrays.asList(states));
 	if (list.contains(state)) list.remove(state);
 	else list.add(state);
-	states = (State[]) list.toArray(new State[0]);
+	states = (StateAutomaton[]) list.toArray(new StateAutomaton[0]);
 	node.setUserObject(states);
 	setSelectedStates(node);
 	view.repaint();
@@ -329,7 +329,7 @@ class MinimizeController {
 	    (node.getStates(), node.getTerminal(), getAutomaton(), getTree());
 	Iterator it = groups.iterator();
 	while (it.hasNext())
-	    addChild(node, (State[]) it.next());
+	    addChild(node, (StateAutomaton[]) it.next());
 	expanding = null;
     }
 
@@ -406,7 +406,7 @@ class MinimizeController {
      */
     private void setSelectedStates(MinimizeTreeNode node) {
 	automatonDrawer.clearSelected();
-	State[] states =  node.getStates();
+	StateAutomaton[] states =  node.getStates();
 	for (int i=0; i<states.length; i++)
 	    automatonDrawer.addSelected(states[i]);
 	treeDrawer.clearSelected();
@@ -465,7 +465,7 @@ class MinimizeController {
 		(view, "A group cannot have more partitions than elements!");
 	    return null;
 	}
-	return addChild(parent, new State[0]);
+	return addChild(parent, new StateAutomaton[0]);
     }
 
     /**
@@ -475,7 +475,7 @@ class MinimizeController {
      * @return the node that was created, or <CODE>null</CODE> if the
      * node could not be created
      */
-    public MinimizeTreeNode addChild(MinimizeTreeNode parent, State[] group) {
+    public MinimizeTreeNode addChild(MinimizeTreeNode parent, StateAutomaton[] group) {
 	if (!canModifyChild(parent)) return null;
 	MinimizeTreeNode node = new MinimizeTreeNode(group);
 	getTree().insertNodeInto(node, parent, parent.getChildCount());
@@ -578,7 +578,7 @@ class MinimizeController {
 	Iterator it = groups.iterator();
 	while (it.hasNext())
 	    realPartitions.add(new HashSet(Arrays.asList
-					   ((State[]) it.next())));
+					   ((StateAutomaton[]) it.next())));
 	if (!realPartitions.equals(userPartitions)) {
 	    JOptionPane.showMessageDialog(view, "The parititons are wrong!");
 	    return false;
@@ -652,7 +652,7 @@ class MinimizeController {
 	    return false;
 	}
 
-	State[] group = minimizer.getDistinguishableGroup
+	StateAutomaton[] group = minimizer.getDistinguishableGroup
 	    (getAutomaton(), getTree());
 	if (group == null) {
 	    /*JOptionPane.showMessageDialog(view,

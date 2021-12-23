@@ -107,15 +107,19 @@ public class ParseNode extends DefaultMutableTreeNode {
      */
     public String toString() {
 	StringBuffer sb = new StringBuffer(derivation);
-	sb.append(", ");
-	sb.append(Arrays.asList(productions) + ", ");
-	sb.append('[');
-	for (int j=0; j<subs.length; j++) {
-	    if (j!=0) sb.append(", ");
-	    sb.append(subs[j]);
-	}
-	sb.append(']');
+	stringRepresentation(sb);
 	return sb.toString();
+    }
+
+    private void stringRepresentation(StringBuffer sb) {
+        sb.append(", ");
+        sb.append(Arrays.asList(productions) + ", ");
+        sb.append('[');
+        for (int j=0; j<subs.length; j++) {
+            if (j!=0) sb.append(", ");
+            sb.append(subs[j]);
+        }
+        sb.append(']');
     }
 
     /** The current string derivation. */

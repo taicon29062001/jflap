@@ -26,7 +26,7 @@
  
 package gui.action;
 
-import grammar.CNFConverter;
+import grammar.CNFConvert;
 import grammar.Grammar;
 import grammar.LambdaProductionRemover;
 import grammar.Production;
@@ -126,9 +126,9 @@ public class GrammarTransformAction extends GrammarAction {
 
     public static void hypothesizeChomsky
 	(GrammarEnvironment env, Grammar g) {
-	CNFConverter converter = null;
+	CNFConvert converter = null;
 	try {
-	    converter = new CNFConverter(g);
+	    converter = new CNFConvert(g);
 	} catch (IllegalArgumentException e) {
 	    JOptionPane.showMessageDialog
 		(env, e.getMessage(), "Illegal Grammar",
