@@ -29,8 +29,6 @@ package gui.sim;
 import automata.Automaton;
 import automata.Configuration;
 import automata.fsa.FSAConfiguration;
-import automata.pda.PDAConfiguration;
-import automata.turing.TMConfiguration;
 
 /**
  * This is a configuration icon factory.  Given a configuration, it
@@ -52,10 +50,6 @@ public class ConfigurationIconFactory {
 	(Configuration configuration) {
 	if (configuration instanceof FSAConfiguration)
 	    return new FSAConfigurationIcon(configuration);
-	else if (configuration instanceof PDAConfiguration)
-	    return new PDAConfigurationIcon(configuration);
-	else if (configuration instanceof TMConfiguration)
-	    return new TMConfigurationIcon(configuration);
 	return null;
     }
 }

@@ -27,8 +27,6 @@
 package gui.editor;
 
 import automata.*;
-import automata.turing.TMTransition;
-import automata.turing.Tape;
 import gui.LambdaCellRenderer;
 import gui.viewer.AutomatonPane;
 import java.awt.*;
@@ -78,10 +76,7 @@ public abstract class TableTransitionCreator extends TransitionCreator {
 	final TipLambdaCellRenderer[] renders = 
 	    new TipLambdaCellRenderer[model.getColumnCount()];
 	for (int i=0; i<model.getColumnCount(); i++)
-	    renders[i] = transition instanceof TMTransition ?
-		new TipLambdaCellRenderer(""+Tape.BLANK,
-					  model.getColumnName(i)):
-		new TipLambdaCellRenderer(model.getColumnName(i));
+	    renders[i] = new TipLambdaCellRenderer(model.getColumnName(i));
 	JTable table = new JTable(createModel(transition)) {
 		public TableCellRenderer getCellRenderer(int r, int c) {
 		    return renders[c];

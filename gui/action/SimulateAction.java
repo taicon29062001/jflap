@@ -38,8 +38,6 @@ import gui.environment.tag.CriticalTag;
 import javax.swing.*;
 import java.awt.GridLayout;
 import java.awt.Component;
-import automata.turing.TuringMachine;
-import automata.turing.TMSimulator;
 
 /**
  * This is the action used for the stepwise simulation of data.  This
@@ -113,26 +111,7 @@ public class SimulateAction extends AutomatonAction {
      * machine, or <CODE>null</CODE> if the user elected to cancel
      */
     protected Object initialInput(Component component) {
-	if (!(getAutomaton() instanceof automata.turing.TuringMachine))
 	    return JOptionPane.showInputDialog(component, "Input?");
-	// Do the multitape stuff.
-	TuringMachine tm = (TuringMachine) getAutomaton();
-	int tapes = tm.tapes();
-	JPanel panel = new JPanel(new GridLayout(tapes, 2));
-	JTextField[] fields = new JTextField[tapes];
-	for (int i=0; i<tapes; i++) {
-	    panel.add(new JLabel("Input "+(i+1)));
-	    panel.add(fields[i] = new JTextField());
-	}
-	int result = JOptionPane.showOptionDialog
-	    (component, panel, "Input?",
-	     JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-	     null, null, null);
-	if (result != JOptionPane.YES_OPTION &&
-	    result != JOptionPane.OK_OPTION) return null;
-	String[] input = new String[tapes];
-	for (int i=0; i<tapes; i++) input[i] = fields[i].getText();
-	return input;
     }
 
     /**
@@ -150,15 +129,8 @@ public class SimulateAction extends AutomatonAction {
 	if (input == null) return;
 	Configuration[] configs = null;
 	AutomatonSimulator simulator = getSimulator(automaton);
-	// Get the initial configurations.
-	if (getAutomaton() instanceof TuringMachine) {
-	    String[] s = (String[]) input;
-	    configs = 
-		((TMSimulator) simulator).getInitialConfigurations(s);
-	} else {
 	    String s = (String) input;
 	    configs = simulator.getInitialConfigurations(s);
-	}
 	handleInteraction(automaton, simulator, configs, input);
     }
 

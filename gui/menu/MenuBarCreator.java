@@ -130,36 +130,6 @@ public class MenuBarCreator {
 	if (SimulateNoClosureAction.isApplicable(object))
 	    addItem(menu, new SimulateNoClosureAction
 		    ((Automaton)object, environment));
-	if (NoInteractionSimulateAction.isApplicable(object))
-	    addItem(menu, new NoInteractionSimulateAction
-		    ((Automaton) object, environment));
-	if (MultipleSimulateAction.isApplicable(object))
-	    addItem(menu, new MultipleSimulateAction
-		    ((Automaton) object, environment));
-	if (MultipleOutputSimulateAction.isApplicable(object))
-	    addItem(menu, new MultipleOutputSimulateAction
-		    ((Automaton) object, environment));
-	/*if (GrammarOutputAction.isApplicable(object))
-	    addItem(menu, new GrammarOutputAction
-	    ((gui.environment.GrammarEnvironment) environment));*/
-
-	// Grammar-y actions.
-
-	if (LLParseTableAction.isApplicable(object))
-	    addItem(menu, new LLParseTableAction
-		    ((gui.environment.GrammarEnvironment) environment));
-	if (LRParseTableAction.isApplicable(object))
-	    addItem(menu, new LRParseTableAction
-		    ((gui.environment.GrammarEnvironment) environment));
-	if (BruteParseAction.isApplicable(object))
-	    addItem(menu, new BruteParseAction
-		    ((gui.environment.GrammarEnvironment) environment));
-
-	// LSystem-y actions.
-	
-	if (LSystemDisplay.isApplicable(object))
-	    addItem(menu, new LSystemDisplay
-		    ((gui.environment.LSystemEnvironment) environment));
 
 	return menu;
     }
@@ -215,33 +185,9 @@ public class MenuBarCreator {
 	    addItem(menu, new MinimizeTreeAction
 		    ((automata.fsa.FiniteStateAutomaton) object, environment));
 
-	if (ConvertFSAToGrammarAction.isApplicable(object))
-	    addItem(menu, new ConvertFSAToGrammarAction
-		    ((gui.environment.AutomatonEnvironment) environment));
-	if (ConvertPDAToGrammarAction.isApplicable(object))
-	    addItem(menu, new ConvertPDAToGrammarAction
-		    ((gui.environment.AutomatonEnvironment) environment));
-
 	if (ConvertFSAToREAction.isApplicable(object))
 	    addItem(menu, new ConvertFSAToREAction
 		    ((gui.environment.AutomatonEnvironment) environment));
-
-	if (ConvertCFGLL.isApplicable(object))
-	    addItem(menu, new ConvertCFGLL
-		    ((gui.environment.GrammarEnvironment) environment));
-	if (ConvertCFGLR.isApplicable(object))
-	    addItem(menu, new ConvertCFGLR
-		    ((gui.environment.GrammarEnvironment) environment));
-	if (ConvertRegularGrammarToFSA.isApplicable(object))
-	    addItem(menu, new ConvertRegularGrammarToFSA
-		    ((gui.environment.GrammarEnvironment) environment));
-	if (GrammarTransformAction.isApplicable(object))
-	    addItem(menu, new GrammarTransformAction
-		    ((gui.environment.GrammarEnvironment) environment));
-
-	if (REToFSAAction.isApplicable(object))
-	    addItem(menu, new REToFSAAction
-		    ((gui.environment.RegularEnvironment) environment));
 
 	if (CombineAutomaton.isApplicable(object))
 	    addItem(menu, new CombineAutomaton

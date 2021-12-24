@@ -27,21 +27,16 @@
 package gui.environment;
 
 import automata.Automaton;
-import grammar.Grammar;
-import grammar.lsystem.LSystem;
 import gui.editor.EditorPane;
 import gui.environment.tag.EditorTag;
 import gui.environment.tag.PermanentTag;
 import gui.environment.tag.Tag;
-import gui.grammar.GrammarInputPane;
-import gui.lsystem.LSystemInputPane;
 import java.awt.BorderLayout;
 import java.io.Serializable;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import regular.RegularExpression;
 
 /**
  * The <CODE>EnvironmentFactory</CODE> creates environments for some
@@ -69,25 +64,6 @@ public class EnvironmentFactory {
 	    Environment env = new AutomatonEnvironment(aut);
 	    EditorPane editor = new EditorPane(aut);
 	    env.add(editor, EDITOR_NAME, EDITOR_PERMANENT_TAG);
-	    return env;
-	} else if (object instanceof Grammar) {
-	    Grammar grammar = (Grammar) object;
-	    GrammarInputPane input = new GrammarInputPane(grammar);
-	    Environment env = new GrammarEnvironment(input);
-	    // Set up the pane for the input pane.
-	    env.add(input, EDITOR_NAME, EDITOR_PERMANENT_TAG);
-	    return env;
-	} else if (object instanceof RegularExpression) {
-	    RegularExpression re = (RegularExpression) object;
-	    gui.regular.EditorPane editor = new gui.regular.EditorPane(re);
-	    Environment env = new RegularEnvironment(re);
-	    env.add(editor, EDITOR_NAME, EDITOR_PERMANENT_TAG);
-	    return env;
-	} else if (object instanceof LSystem) {
-	    LSystem lsystem = (LSystem) object;
-	    LSystemInputPane lsinput = new LSystemInputPane(lsystem);
-	    Environment env = new LSystemEnvironment(lsinput);
-	    env.add(lsinput, EDITOR_NAME, EDITOR_PERMANENT_TAG);
 	    return env;
 	} else {
 	    JOptionPane.showMessageDialog

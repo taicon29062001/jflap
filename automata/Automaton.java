@@ -27,7 +27,6 @@
 package automata;
 
 import automata.event.*;
-import automata.turing.TuringMachine;
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.*;
@@ -66,10 +65,6 @@ public class Automaton implements Serializable, Cloneable {
 	Automaton a;
 	// Try to create a new object.
 	try {
-	    // I am a bad person for writing this hack.
-	    if (this instanceof TuringMachine)
-		a = new TuringMachine(((TuringMachine)this).tapes());
-	    else
 		a = (Automaton) getClass().newInstance();
 	} catch (Throwable e) {
 	    // Well golly, we're sure screwed now!
@@ -556,9 +551,6 @@ public class Automaton implements Serializable, Cloneable {
 	    Set trans = (Set) in.readObject();
 	    it = trans.iterator();
 	    while (it.hasNext()) addTransition((Transition) it.next());
-	    if (this instanceof TuringMachine) {
-		((TuringMachine)this).tapes = in.readInt();
-	    }
 	}
 	if (version >= 1) {
 	    
@@ -577,9 +569,6 @@ public class Automaton implements Serializable, Cloneable {
 	out.writeObject(initialState);
 	out.writeObject(finalStates);
 	out.writeObject(transitions);
-	if (this instanceof TuringMachine) {
-	    out.writeInt(((TuringMachine)this).tapes);
-	}
 	out.writeObject("SENT"); // The sentinel object.
     }
 

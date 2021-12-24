@@ -27,7 +27,6 @@
 package gui.action;
 
 import automata.Automaton;
-import automata.fsa.FSAToRegularExpressionConverter;
 import automata.fsa.FiniteStateAutomaton;
 import gui.environment.AutomatonEnvironment;
 import gui.environment.Universe;
@@ -36,7 +35,6 @@ import gui.viewer.AutomatonPane;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
-import gui.regular.ConvertPane;
 
 /**
  * This action handles the conversion of an FSA to a regular
@@ -75,14 +73,8 @@ public class ConvertFSAToREAction extends FSAAction {
 		 "No Final States", JOptionPane.ERROR_MESSAGE);
 	    return;
 	}
-	ConvertPane pane = new ConvertPane(environment);
-	environment.add(pane, "Convert FA to RE", new CriticalTag() {});
-	environment.setActive(pane);
     }
 
     /** The automaton environment. */
     private AutomatonEnvironment environment;
-    /** The converter object. */
-    private FSAToRegularExpressionConverter converter 
-	= new FSAToRegularExpressionConverter();
 }

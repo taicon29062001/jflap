@@ -149,66 +149,6 @@ public class NewAction extends RestrictedAction {
 		    }
 		});
 	    getContentPane().add(button);
-
-	    button = new JButton("Pushdown Automaton");
-	    button.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-			createWindow(new automata.pda.PushdownAutomaton());
-		    }
-		});
-	    getContentPane().add(button);
-
-	    button = new JButton("Turing Machine");
-	    button.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-			createWindow(new automata.turing.TuringMachine(1));
-		    }
-		});
-	    getContentPane().add(button);
-
-	    button = new JButton("Multi-Tape Turing Machine");
-	    button.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-			if (INTS==null) {
-			    INTS = new Integer[4];
-			    for (int i=0; i<INTS.length; i++)
-				INTS[i] = new Integer(i+2);
-			}
-			Number n = (Number) JOptionPane.showInputDialog
-			    (NewDialog.this.getContentPane(), "How many tapes?", 
-			     "Multi-tape Machine", JOptionPane.QUESTION_MESSAGE,
-			     null, INTS, INTS[0]);
-			if (n==null) return;
-			createWindow
-			    (new automata.turing.TuringMachine(n.intValue()));
-		    }
-		    private Integer[] INTS = null;
-		});
-	    getContentPane().add(button);
-
-	    button = new JButton("Grammar");
-	    button.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-			createWindow(new grammar.cfg.ContextFreeGrammar());
-		    }
-		});
-	    getContentPane().add(button);
-
-	    button = new JButton("L-System");
-	    button.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-			createWindow(new grammar.lsystem.LSystem());
-		    }
-		});
-	    getContentPane().add(button);
-
-	    button = new JButton("Regular Expression");
-	    button.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-			createWindow(new regular.RegularExpression());
-		    }
-		});
-	    getContentPane().add(button);
 	}
     }
 

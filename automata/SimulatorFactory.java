@@ -44,10 +44,6 @@ public class SimulatorFactory {
     public static AutomatonSimulator getSimulator(Automaton automaton) {
 	if (automaton instanceof automata.fsa.FiniteStateAutomaton)
 	    return new automata.fsa.FSAStepWithClosureSimulator(automaton);
-	else if (automaton instanceof automata.pda.PushdownAutomaton)
-	    return new automata.pda.PDAStepWithClosureSimulator(automaton);
-	else if (automaton instanceof automata.turing.TuringMachine)
-	    return new automata.turing.TMSimulator(automaton);
 	return null;
     }
 }

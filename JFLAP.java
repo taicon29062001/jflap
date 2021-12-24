@@ -30,7 +30,6 @@ import gui.action.NewAction;
 import gui.action.OpenAction;
 import gui.environment.Universe;
 import java.io.File;
-import java.security.*;
 
 /**
  * This is the class that starts JFLAP.

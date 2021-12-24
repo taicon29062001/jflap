@@ -13,3 +13,6 @@ stringRepresentation(StringBuffer sb)
 makeSubstitution(Production[] p, HashMap replacements, Production[] pnew)
 - Đổi tên phương thức findFinal(Automaton a) thuộc lớp UselessStatesDetector thành findFinalState(Automaton a)
 - Đổi tên phương thức findInitial(Automaton a) thuộc lớp UselessStatesDetector thành findInitialState(Automaton a)
+
+Thông tin về Refactor nâng cao(2):
+- Chỉ giữ lại chức năng Finite Automaton, đã xóa các file liên quan đến các chức năng khác

@@ -27,12 +27,8 @@
 package file;
 
 import automata.*;
-import grammar.Grammar;
-import grammar.Production;
-import grammar.UnboundGrammar;
 import java.io.*;
 import java.util.Map;
-import regular.RegularExpression;
 
 /**
  * This is the codec for reading JFLAP structures in the JFLAP 3 saved
@@ -54,69 +50,7 @@ public class JFLAP3Codec extends Codec {
      * @throws ParseException if there was a problem reading the file
      */
     public Serializable decode(File file, Map parameters) {
-	if (file.getName().endsWith(GRAMMAR_SUFFIX))
-	    return readGrammar(file);
-	if (file.getName().endsWith(REGULAR_EXPRESSION_SUFFIX))
-	    return readRE(file);
 	return readAutomaton(file);
-    }
-
-    /**
-     * Reads the file as a regular expression.
-     * @param file the file to read
-     * @return the regular expression associated with this document
-     */
-    private RegularExpression readRE(File file) {
-	String rstring = ""; // If nothing found, RE is blank.
-	try {
-	    BufferedReader reader = new BufferedReader(new FileReader(file));
-	    String line = null;
-	    while ((line = reader.readLine()) != null) {
-		line = line.trim();
-		if (line.startsWith("#")) continue;
-		if (line.length()==0) continue;
-		rstring = line;
-	    }
-	} catch (FileNotFoundException e) {
-	    throw new ParseException("Could not find file "
-				     +file.getName()+"!");
-	} catch (IOException e) {
-	    throw new ParseException("Error accessing file to write!");
-	}
-	return new RegularExpression(rstring);
-    }
-
-    /**
-     * Reads the file as a grammar.
-     * @param file the file to read
-     * @return the grammar associated with this document
-     */
-    private Grammar readGrammar(File file) {
-	Grammar g = new UnboundGrammar();
-	int lineNum = 0;
-	try {
-	    BufferedReader reader = new BufferedReader(new FileReader(file));
-	    String line = null;
-	    while ((line = reader.readLine()) != null) {
-		line = line.trim();
-		lineNum++;
-		if (line.length()==0) continue;
-		if (line.startsWith("#")) continue;
-		String[] elems = line.split("\\s+");
-		int len = elems.length;
-		if (len > 3 || len < 2 || !elems[1].equals("->")) {
-		    throw new ParseException
-			("Line "+lineNum+" is not formatted properly!");
-		}
-		g.addProduction(new Production(elems[0], len==3?elems[2]:""));
-	    }
-	} catch (FileNotFoundException e) {
-	    throw new ParseException("Could not find file "
-				     +file.getName()+"!");
-	} catch (IOException e) {
-	    throw new ParseException("Error accessing file to write!");
-	}
-	return g;
     }
 
     /**
@@ -131,10 +65,6 @@ public class JFLAP3Codec extends Codec {
 	    String line = reader.readLine().trim();
 	    if (line.equals(FINITE_AUTOMATON_CODE))
 		return readFA(reader);
-	    if (line.equals(PUSHDOWN_AUTOMATON_CODE))
-		return readPDA(reader);
-	    if (line.equals(TURING_MACHINE_CODE))
-		return readTM(reader);
 	    throw new ParseException("Unknown machine type "+line+"!");
 	} catch (NullPointerException e) {
 	    throw new ParseException("Unexpected end of file!");
@@ -170,104 +100,6 @@ public class JFLAP3Codec extends Codec {
 	}
 	readStateMove(states, reader);
 	return fa;
-    }
-
-    /**
-     * Reads the lines in the reader as a pushdown automaton.
-     * @param reader the source of lines in the file
-     */
-    private automata.pda.PushdownAutomaton readPDA(BufferedReader reader)
-	throws IOException {
-	String ender = reader.readLine().trim();
-	if (!(ender.equals("FINAL") || ender.equals("EMPTY") ||
-	      ender.equals("FINAL+EMPTY")))
-	    throw new ParseException
-		(ender+" is a bad finishing type for PDA!");
-	automata.pda.PushdownAutomaton pda =
-	    new automata.pda.PushdownAutomaton();
-	// Generic states.
-	StateAutomaton[] states = readStateCreate(pda, reader);
-	String[][][] groups = readTransitionGroups
-	    (5, 3, states.length, reader);
-	for (int s=0; s<groups.length; s++) {
-	    for (int g=0; g<groups[s].length; g++) {
-		String[] group = groups[s][g];
-		StateAutomaton to=states[Integer.parseInt(group[3])-1], from=states[s];
-		try {
-		    Transition t;
-		    // Take care of lambda symbols.
-		    int[] check = {0,1,4};
-		    for (int i=0; i<check.length; i++)
-			if (group[check[i]].equals("null"))
-			    group[check[i]] = "";
-		    // Create the transition.
-		    t = new automata.pda.PDATransition
-			(from, to, group[0], group[1], group[4]);
-		    pda.addTransition(t);
-		} catch (IllegalArgumentException e) {
-		    throw new ParseException(e.getMessage());
-		}
-	    }
-	}
-	readStateMove(states, reader);
-	return pda;
-    }
-
-    /**
-     * Reads the lines in the reader as a Turing machine.
-     * @param reader the source of lines in the file
-     */
-    private automata.turing.TuringMachine readTM(BufferedReader reader)
-	throws IOException {
-	if (!reader.readLine().trim().equals("TAPE"))
-	    throw new ParseException("Expected TAPE line absent!");
-	// Try to read the number of tapes.
-	int tapes = 0;
-	try {
-	    tapes = Integer.parseInt(reader.readLine());
-	    if (tapes != 1 && tapes != 2)
-		throw new ParseException("May only have 1 or 2 tapes!");
-	} catch (NumberFormatException e) {
-	    throw new ParseException("Bad format for number of tapes!");
-	}
-	automata.turing.TuringMachine tm =
-	    new automata.turing.TuringMachine(tapes);
-	// Generic states.
-	StateAutomaton[] states = readStateCreate(tm, reader);
-	String[][][] groups = readTransitionGroups
-	    (1+3*tm.tapes(), 1, states.length, reader);
-	for (int s=0; s<groups.length; s++) {
-	    for (int g=0; g<groups[s].length; g++) {
-		String[] group = groups[s][g];
-		StateAutomaton to=states[Integer.parseInt(group[1])-1], from=states[s];
-		try {
-		    Transition t;
-		    // Take care of blank tape symbols.
-		    int[] check = tm.tapes()==1?new int[]{0,2}
-			:new int[]{0,2,4,5};
-		    for (int i=0; i<check.length; i++)
-			if (group[check[i]].equals("B"))
-			    group[check[i]] = "";
-		    // Create the transition.
-		    if (tm.tapes() == 1)
-			t = new automata.turing.TMTransition
-			    (from, to, group[0], group[2],
-			     group[3].toUpperCase());
-		    else
-			t = new automata.turing.TMTransition
-			    (from, to,
-			     new String[]{group[0], group[4]},
-			     new String[]{group[2], group[5]},
-			     new String[]{group[3].toUpperCase(),
-					  group[6].toUpperCase()});
-		    tm.addTransition(t);
-		} catch (IllegalArgumentException e) {
-		    throw new ParseException(e.getMessage());
-		}
-	    }
-	}
-	readStateMove(states, reader);
-	return tm;
     }
     
     /**

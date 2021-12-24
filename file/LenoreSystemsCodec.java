@@ -27,12 +27,8 @@
 package file;
 
 import automata.*;
-import grammar.Grammar;
-import grammar.Production;
-import grammar.UnboundGrammar;
 import java.io.*;
 import java.util.Map;
-import regular.RegularExpression;
 
 /**
  * This is the codec for reading JFLAP structures in the

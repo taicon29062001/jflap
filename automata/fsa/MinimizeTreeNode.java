@@ -27,7 +27,6 @@
 package automata.fsa;
 
 import automata.*;
-import automata.fsa.*;
 import javax.swing.tree.*;
 
 /**
